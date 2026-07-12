@@ -114,6 +114,19 @@
     .chart-legend span { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; color: var(--text-dim); }
     .chart-legend .dot { width: 12px; height: 12px; border-radius: 50%; }
 
+    /* Credit Union Cards */
+    .cu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+    .cu-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+    .cu-card h3 { font-size: 1.1rem; margin-bottom: 1rem; color: var(--accent); }
+    .cu-card .cu-rate-row { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid rgba(51,65,85,0.5); font-size: 0.9rem; }
+    .cu-card .cu-rate-row:last-child { border-bottom: none; }
+    .cu-card .cu-term { color: var(--text-dim); }
+    .cu-card .cu-rate { font-weight: 700; color: var(--green); }
+    .cu-card .cu-apr { color: var(--text-dim); font-size: 0.8rem; }
+    .cu-card .cu-section-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); margin: 0.75rem 0 0.25rem; }
+    .cu-card a { color: var(--accent); text-decoration: none; font-size: 0.8rem; }
+    .cu-card .cu-myrate { background: rgba(56,189,248,0.1); border-radius: 4px; padding: 0.2rem 0.4rem; margin-left: 0.3rem; font-size: 0.7rem; color: var(--accent); }
+
     /* Footer */
     .footer { text-align: center; color: var(--text-dim); font-size: 0.85rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
     .footer a { color: var(--accent); text-decoration: none; }
@@ -162,6 +175,12 @@
       </div>
     </div>
 
+    <!-- Local Credit Union Rates -->
+    <div class="section-title">🏛️ Local Credit Union Rates</div>
+    <div id="creditUnions" class="cu-grid">
+      <p style="color: var(--text-dim);">Loading credit union rates...</p>
+    </div>
+
     <!-- Lender Offers Table -->
     <div class="section-title">🏦 Today's Top Lender Offers</div>
     <table class="lender-table" id="lenderTable">
@@ -186,7 +205,8 @@
     <div style="color: var(--text-dim); font-size: 0.9rem; line-height: 1.8;">
       <ul style="list-style: none; padding: 0;">
         <li>• <strong>Bankrate</strong> — National survey of lenders, real-time rate table</li>
-        <li>• <strong>Freddie Mac PMMS</strong> — Weekly Primary Mortgage Market Survey benchmark</li>
+        <li>• <strong>PatelCo Credit Union</strong> — Local SF Bay Area credit union rates</li>
+        <li>• <strong>Star One Credit Union</strong> — Silicon Valley credit union rates</li>
         <li>• Rates reflect purchase money mortgages for single-family detached homes</li>
         <li>• Assumptions: 780+ credit score, conforming loan limits, 20% down payment</li>
       </ul>
@@ -262,6 +282,48 @@
       .catch(err => {
         document.getElementById('updated').textContent = 'Error loading rates: ' + err.message;
       });
+
+    // Load credit union rates (same latest.json)
+    fetch('data/latest.json')
+      .then(r => r.json())
+      .then(data => {
+        const cus = data.creditUnions;
+        if (!cus) return;
+        const container = document.getElementById('creditUnions');
+        const myRate = data.profile?.currentRate;
+        const myLoanType = data.profile?.loanType || '';
+
+        let html = '';
+        for (const [key, cu] of Object.entries(cus)) {
+          let rows = '';
+          if (cu.fixed?.length) {
+            rows += `<div class="cu-section-label">Fixed Rates</div>`;
+            // Deduplicate by term (keep lowest rate per term)
+            const byTerm = {};
+            for (const f of cu.fixed) {
+              if (!byTerm[f.term] || f.rate < byTerm[f.term].rate) byTerm[f.term] = f;
+            }
+            for (const f of Object.values(byTerm).sort((a,b) => parseInt(b.term) - parseInt(a.term))) {
+              const isMyRate = myRate && Math.abs(f.rate - myRate) < 0.01;
+              rows += `<div class="cu-rate-row"><span class="cu-term">${f.term}${isMyRate ? '<span class="cu-myrate">YOUR RATE</span>' : ''}</span><span class="cu-rate">${f.rate.toFixed(3)}% <span class="cu-apr">APR ${f.apr.toFixed(3)}%</span></span></div>`;
+            }
+          }
+          if (cu.arm?.length) {
+            rows += `<div class="cu-section-label">ARM Rates</div>`;
+            const byTermA = {};
+            for (const a of cu.arm) {
+              if (!byTermA[a.term] || a.rate < byTermA[a.term].rate) byTermA[a.term] = a;
+            }
+            for (const a of Object.values(byTermA).sort((a,b) => parseInt(a.term) - parseInt(b.term))) {
+              const isMyRate = myRate && Math.abs(a.rate - myRate) < 0.01;
+              rows += `<div class="cu-rate-row"><span class="cu-term">${a.term}${isMyRate ? '<span class="cu-myrate">YOUR RATE</span>' : ''}</span><span class="cu-rate">${a.rate.toFixed(3)}% <span class="cu-apr">APR ${a.apr.toFixed(3)}%</span></span></div>`;
+            }
+          }
+          html += `<div class="cu-card"><h3>${cu.name}</h3>${rows}<a href="${cu.url}" target="_blank" rel="noopener">View full rates →</a></div>`;
+        }
+        container.innerHTML = html;
+      })
+      .catch(() => {});
 
     // Load history for chart
     fetch('data/history.json')

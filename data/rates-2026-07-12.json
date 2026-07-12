@@ -1,6 +1,6 @@
 {
   "date": "2026-07-12",
-  "fetchedAt": "2026-07-12T00:10:00.209Z",
+  "fetchedAt": "2026-07-12T05:56:25.869Z",
   "profile": {
     "currentRate": 5.8,
     "loanType": "5/1 ARM",
@@ -10,28 +10,9 @@
   "nationalAverages": {
     "30_year_fixed": 6.58,
     "15_year_fixed": 5.95,
-    "top_daily_offer": 5.78
+    "top_daily_offer": 5.76
   },
   "lenderOffers": [
-    {
-      "lender": "Optimum First Mortgage",
-      "lenderId": "7604",
-      "logo": "https://www.brimg.net/system/img/inst/7604_hires_logo.png",
-      "product": "30 year fixed",
-      "productTypeId": "HL168",
-      "rate": 5.875,
-      "apr": 6.049,
-      "points": 1.639,
-      "monthlyPayment": 5584.12,
-      "upFrontCosts": 17467.16,
-      "fiveYearCost": 285579.22,
-      "eightYearCost": 435952.54,
-      "interestType": "fixed",
-      "loanSize": "conforming",
-      "isFHA": false,
-      "isVA": false,
-      "lockDays": 30
-    },
     {
       "lender": "Sage Home Loans",
       "lenderId": "11968",
@@ -64,25 +45,6 @@
       "upFrontCosts": 18785,
       "fiveYearCost": 286897.06,
       "eightYearCost": 437270.38,
-      "interestType": "fixed",
-      "loanSize": "conforming",
-      "isFHA": false,
-      "isVA": false,
-      "lockDays": 30
-    },
-    {
-      "lender": "Optimum First Mortgage",
-      "lenderId": "7604",
-      "logo": "https://www.brimg.net/system/img/inst/7604_hires_logo.png",
-      "product": "30 year fixed",
-      "productTypeId": "HL167",
-      "rate": 5.999,
-      "apr": 6.1,
-      "points": 0.866,
-      "monthlyPayment": 5659.15,
-      "upFrontCosts": 10170.04,
-      "fiveYearCost": 284141.32,
-      "eightYearCost": 438002.32,
       "interestType": "fixed",
       "loanSize": "conforming",
       "isFHA": false,
@@ -140,25 +102,6 @@
       "upFrontCosts": 19012.88,
       "fiveYearCost": 298942.72,
       "eightYearCost": 456356.03,
-      "interestType": "fixed",
-      "loanSize": "conforming",
-      "isFHA": false,
-      "isVA": false,
-      "lockDays": 30
-    },
-    {
-      "lender": "Optimum First Mortgage",
-      "lenderId": "7604",
-      "logo": "https://www.brimg.net/system/img/inst/7604_hires_logo.png",
-      "product": "30 year fixed",
-      "productTypeId": "HL166",
-      "rate": 6.375,
-      "apr": 6.379,
-      "points": null,
-      "monthlyPayment": 5889.33,
-      "upFrontCosts": 371.32,
-      "fiveYearCost": 292137.57,
-      "eightYearCost": 456623.27,
       "interestType": "fixed",
       "loanSize": "conforming",
       "isFHA": false,
@@ -297,44 +240,6 @@
       "isFHA": false,
       "isVA": false,
       "lockDays": 30
-    },
-    {
-      "lender": "New American Funding - CPC",
-      "lenderId": "11904",
-      "logo": "https://www.brimg.net/system/img/inst/11904_hires_logo.png",
-      "product": "30 year fixed",
-      "productTypeId": "HL168",
-      "rate": 7.125,
-      "apr": 7.351,
-      "points": 1.966,
-      "monthlyPayment": 6360,
-      "upFrontCosts": 21059,
-      "fiveYearCost": 347905.27,
-      "eightYearCost": 533782.7,
-      "interestType": "fixed",
-      "loanSize": "conforming",
-      "isFHA": false,
-      "isVA": false,
-      "lockDays": 30
-    },
-    {
-      "lender": "New American Funding - CPC",
-      "lenderId": "11904",
-      "logo": "https://www.brimg.net/system/img/inst/11904_hires_logo.png",
-      "product": "30 year fixed",
-      "productTypeId": "HL167",
-      "rate": 7.49,
-      "apr": 7.612,
-      "points": 0.927,
-      "monthlyPayment": 6595,
-      "upFrontCosts": 11250,
-      "fiveYearCost": 355470.37,
-      "eightYearCost": 551841.47,
-      "interestType": "fixed",
-      "loanSize": "conforming",
-      "isFHA": false,
-      "isVA": false,
-      "lockDays": 30
     }
   ],
   "armRates": {
@@ -353,7 +258,7 @@
     "15_year_fixed": 5.89,
     "5_1_arm": 6.2,
     "10_1_arm": 6.58,
-    "top_daily_30yr_offer": 5.78,
+    "top_daily_30yr_offer": 5.76,
     "best_30yr_lender_rate": 5.875,
     "my_rate": 5.8,
     "my_loan_type": "5/1 ARM",
@@ -370,5 +275,102 @@
     "{\"creditScore\":780,\"debtToIncomeRatio\":0,\"loanAmount\":944000,\"pointsRange\":\"ALL\",\"productCategories\":[\"MORTGAGE_PURCHASE\"],\"productFamilies\":[\"CONVENTIONAL\"],\"propertyType\":\"SINGLE_FAMILY\",\"propertyUse\":\"PRIMARY_RESIDENCE\",\"propertyValue\":1180000,\"termIds\":[2,16,23],\"zipCode\":\"95123\"}",
     "https://explorers-rate-tables.bankrate.com",
     ""
-  ]
+  ],
+  "creditUnions": {
+    "patelco": {
+      "name": "PatelCo Credit Union",
+      "url": "https://www.patelco.org/credit-cards-and-loans/home-loans/mortgage",
+      "fixed": [
+        {
+          "term": "30-Year Fixed",
+          "rate": 6.625,
+          "apr": 6.71
+        },
+        {
+          "term": "20-Year Fixed",
+          "rate": 6.375,
+          "apr": 6.482
+        },
+        {
+          "term": "15-Year Fixed",
+          "rate": 6,
+          "apr": 6.128
+        },
+        {
+          "term": "10-Year Fixed",
+          "rate": 6,
+          "apr": 6.181
+        },
+        {
+          "term": "30-Year Fixed",
+          "rate": 6.75,
+          "apr": 6.831
+        },
+        {
+          "term": "15-Year Fixed",
+          "rate": 6.375,
+          "apr": 6.501
+        },
+        {
+          "term": "30-Year Fixed",
+          "rate": 6.875,
+          "apr": 6.95
+        },
+        {
+          "term": "15-Year Fixed",
+          "rate": 6.5,
+          "apr": 6.615
+        }
+      ],
+      "arm": []
+    },
+    "starone": {
+      "name": "Star One Credit Union",
+      "url": "https://www.starone.org/rates/mortgage-rates",
+      "fixed": [
+        {
+          "term": "10-Year Fixed",
+          "rate": 5.75,
+          "apr": 5.854
+        },
+        {
+          "term": "15-Year Fixed",
+          "rate": 6,
+          "apr": 6.175
+        },
+        {
+          "term": "20-Year Fixed",
+          "rate": 6.25,
+          "apr": 6.393
+        },
+        {
+          "term": "30-Year Fixed",
+          "rate": 6.5,
+          "apr": 6.612
+        }
+      ],
+      "arm": [
+        {
+          "term": "3/1 ARM",
+          "rate": 5.75,
+          "apr": 6.412
+        },
+        {
+          "term": "5/1 ARM",
+          "rate": 5.875,
+          "apr": 6.358
+        },
+        {
+          "term": "7/1 ARM",
+          "rate": 6,
+          "apr": 6.348
+        },
+        {
+          "term": "10/1 ARM",
+          "rate": 6.125,
+          "apr": 6.359
+        }
+      ]
+    }
+  }
 }

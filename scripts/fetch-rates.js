@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 /**
- * Mortgage Rate Fetcher v2
+ * Mortgage Rate Fetcher v3
  * 
- * Extracts structured rate data from Bankrate's __NEXT_DATA__ JSON:
- * - Per-lender offers (rate, APR, points, monthly payment, fees)
+ * Extracts structured rate data from:
+ * - Bankrate's __NEXT_DATA__ JSON (national lenders)
+ * - PatelCo Credit Union (local CU rates)
+ * - Star One Credit Union (local CU rates)
  * - National averages (from page text)
  * - ARM rates from dedicated ARM page
  * 
@@ -138,6 +140,92 @@ function parseNationalAverages(body) {
   return rates;
 }
 
+// Parse PatelCo Credit Union rates from their mortgage page HTML
+function parsePatelCo(body) {
+  const text = body.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+  const fixed = [];
+  const arm = [];
+
+  // Fixed-rate products: "30-Year Fixed $50,000 to $832,750 6.625% 6.710%"
+  const fixedRegex = /(\d+)-Year Fixed(?:\s+(?:High Balance|Jumbo))?\s+\$[\d,]+\s+to\s+\$[\d,]+\s+(\d+\.\d{2,4})%\s+(\d+\.\d{2,4})%/gi;
+  const seen = new Set();
+  let m;
+  while ((m = fixedRegex.exec(text)) !== null) {
+    const key = `${m[1]}yr-${m[2]}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    fixed.push({
+      term: `${m[1]}-Year Fixed`,
+      rate: parseFloat(m[2]),
+      apr: parseFloat(m[3]),
+    });
+  }
+
+  // ARM products: "5/1 30-Year Adjustable 6.125% 6.279%"
+  const armRegex = /(\d+\/\d+)\s+30-Year Adjustable(?:\s+Jumbo)?\s+\$[\d,]+\s+to\s+\$[\d,]+\s+(\d+\.\d{2,4})%\s+(\d+\.\d{2,4})%/gi;
+  const seenArm = new Set();
+  while ((m = armRegex.exec(text)) !== null) {
+    const key = `${m[1]}-${m[2]}`;
+    if (seenArm.has(key)) continue;
+    seenArm.add(key);
+    arm.push({
+      term: `${m[1]} ARM`,
+      rate: parseFloat(m[2]),
+      apr: parseFloat(m[3]),
+    });
+  }
+
+  return {
+    name: 'PatelCo Credit Union',
+    url: 'https://www.patelco.org/credit-cards-and-loans/home-loans/mortgage',
+    fixed,
+    arm,
+  };
+}
+
+// Parse Star One Credit Union rates from their mortgage page HTML
+function parseStarOne(body) {
+  const text = body.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+  const fixed = [];
+  const arm = [];
+
+  // Fixed rates: "N-year mortgage at X.XXX% (Y.YYY% APR"
+  const fixedRegex = /(\d+)-year mortgage at (\d+\.\d{2,4})%\s*\((\d+\.\d{2,4})%\s*APR/gi;
+  const seen = new Set();
+  let m;
+  while ((m = fixedRegex.exec(text)) !== null) {
+    const key = `${m[1]}yr`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    fixed.push({
+      term: `${m[1]}-Year Fixed`,
+      rate: parseFloat(m[2]),
+      apr: parseFloat(m[3]),
+    });
+  }
+
+  // ARM rates: "N-Year Fixed-to-Adjustable-Rate Mortgage ... is X.XXX% (Y.YYY% APR for conforming"
+  const armRegex = /(\d+)-Year Fixed-to-Adjustable-Rate Mortgage.*?is (\d+\.\d{2,4})%\s*\((\d+\.\d{2,4})%\s*APR for conforming/gi;
+  const seenArm = new Set();
+  while ((m = armRegex.exec(text)) !== null) {
+    const key = `${m[1]}yr`;
+    if (seenArm.has(key)) continue;
+    seenArm.add(key);
+    arm.push({
+      term: `${m[1]}/1 ARM`,
+      rate: parseFloat(m[2]),
+      apr: parseFloat(m[3]),
+    });
+  }
+
+  return {
+    name: 'Star One Credit Union',
+    url: 'https://www.starone.org/rates/mortgage-rates',
+    fixed,
+    arm,
+  };
+}
+
 async function main() {
   const today = new Date().toISOString().split('T')[0];
   const now = new Date().toISOString();
@@ -194,6 +282,32 @@ async function main() {
     console.log('  ✓ ARM rates:', JSON.stringify(armData));
   } catch (e) {
     console.error('  ✗ Bankrate ARM failed:', e.message);
+  }
+
+  // === Fetch PatelCo Credit Union rates ===
+  try {
+    console.log('→ PatelCo Credit Union rates...');
+    const res = await fetch('https://www.patelco.org/credit-cards-and-loans/home-loans/mortgage');
+    result.creditUnions = result.creditUnions || {};
+    result.creditUnions.patelco = parsePatelCo(res.body);
+    console.log(`  ✓ PatelCo: ${result.creditUnions.patelco.fixed.length} fixed, ${result.creditUnions.patelco.arm.length} ARM rates`);
+  } catch (e) {
+    console.error('  ✗ PatelCo failed:', e.message);
+    result.errors = result.errors || [];
+    result.errors.push({ source: 'patelco', error: e.message });
+  }
+
+  // === Fetch Star One Credit Union rates ===
+  try {
+    console.log('→ Star One Credit Union rates...');
+    const res = await fetch('https://www.starone.org/rates/mortgage-rates');
+    result.creditUnions = result.creditUnions || {};
+    result.creditUnions.starone = parseStarOne(res.body);
+    console.log(`  ✓ Star One: ${result.creditUnions.starone.fixed.length} fixed, ${result.creditUnions.starone.arm.length} ARM rates`);
+  } catch (e) {
+    console.error('  ✗ Star One failed:', e.message);
+    result.errors = result.errors || [];
+    result.errors.push({ source: 'starone', error: e.message });
   }
 
   // === Build summary ===
@@ -289,6 +403,22 @@ async function main() {
     byRate.slice(0, 5).forEach((l, i) => {
       console.log(`  ${i+1}. ${l.lender} — ${l.product}: ${l.rate}% (APR ${l.apr}%, ${l.points} pts, $${Math.round(l.monthlyPayment || 0)}/mo)`);
     });
+  }
+
+  // Print credit union rates
+  if (result.creditUnions) {
+    console.log('\n--- Local Credit Union Rates ---');
+    for (const [key, cu] of Object.entries(result.creditUnions)) {
+      console.log(`\n  ${cu.name}:`);
+      for (const f of cu.fixed) {
+        const marker = f.term === '30-Year Fixed' ? ' ←' : '';
+        console.log(`    ${f.term}: ${f.rate}% (APR ${f.apr}%)${marker}`);
+      }
+      for (const a of cu.arm) {
+        const marker = a.term === '5/1 ARM' || a.term === '5/1 ARM' ? ' ←' : '';
+        console.log(`    ${a.term}: ${a.rate}% (APR ${a.apr}%)${marker}`);
+      }
+    }
   }
 
   if (changes.length) {
