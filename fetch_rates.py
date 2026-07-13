@@ -150,6 +150,7 @@ def run_all_scrapers():
     from scrapers.golden1 import scrape as sc_golden1
     from scrapers.bofa import scrape as sc_bofa
     from scrapers.chase import scrape as sc_chase
+    from scrapers.citi import scrape as sc_citi
     from scrapers.pmms import scrape as sc_pmms
 
     scrapers = [
@@ -159,6 +160,7 @@ def run_all_scrapers():
         ("golden1", sc_golden1),
         ("bofa", sc_bofa),
         ("chase", sc_chase),
+        ("citi", sc_citi),
     ]
 
     institutions = {}
