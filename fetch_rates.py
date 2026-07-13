@@ -71,23 +71,13 @@ def run_all_scrapers():
     """Run all scrapers and collect results."""
     from scrapers.patelco import scrape as sc_patelco
     from scrapers.starone import scrape as sc_starone
-    from scrapers.bofa import scrape as sc_bofa
     from scrapers.wellsfargo import scrape as sc_wf
-    from scrapers.chase import scrape as sc_chase
-    from scrapers.provident import scrape as sc_provident
-    from scrapers.golden1 import scrape as sc_golden1
-    from scrapers.firsttech import scrape as sc_firsttech
     from scrapers.pmms import scrape as sc_pmms
 
     scrapers = [
         ("patelco", sc_patelco),
         ("starone", sc_starone),
-        ("bofa", sc_bofa),
         ("wellsfargo", sc_wf),
-        ("chase", sc_chase),
-        ("provident", sc_provident),
-        ("golden1", sc_golden1),
-        ("firsttech", sc_firsttech),
     ]
 
     institutions = {}

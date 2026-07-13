@@ -1,6 +1,6 @@
 {
   "date": "2026-07-13",
-  "fetchedAt": "2026-07-13T03:19:45.926622+00:00",
+  "fetchedAt": "2026-07-13T03:31:30.908196+00:00",
   "profile": {
     "currentRate": 5.8,
     "loanType": "5/1 ARM",
@@ -103,12 +103,6 @@
         }
       ]
     },
-    "bofa": {
-      "name": "Bank of America",
-      "url": "https://www.bankofamerica.com/mortgage/mortgage-rates/",
-      "fixed": [],
-      "arm": []
-    },
     "wellsfargo": {
       "name": "Wells Fargo",
       "url": "https://www.wellsfargo.com/mortgage/rates/",
@@ -137,30 +131,6 @@
         }
       ]
     },
-    "chase": {
-      "name": "JPMorgan Chase",
-      "url": "https://www.chase.com/personal/mortgage/mortgage-rates",
-      "fixed": [],
-      "arm": []
-    },
-    "provident": {
-      "name": "Provident Credit Union",
-      "url": "https://www.providentcu.org/rates/",
-      "fixed": [],
-      "arm": []
-    },
-    "golden1": {
-      "name": "Golden 1 Credit Union",
-      "url": "https://www.golden1.com/rates/mortgage-rates",
-      "fixed": [],
-      "arm": []
-    },
-    "firsttech": {
-      "name": "First Tech Federal Credit Union",
-      "url": "https://www.firsttechfed.com/rates/mortgage-rates",
-      "fixed": [],
-      "arm": []
-    },
     "pmms": {
       "name": "Freddie Mac PMMS",
       "url": "https://www.freddiemac.com/pmms/",
@@ -183,7 +153,7 @@
     "national_15_year_fixed": 5.82,
     "my_rate": 5.8,
     "my_loan_type": "5/1 ARM",
-    "institutions_count": 9,
+    "institutions_count": 4,
     "30_year_fixed": 6.5,
     "15_year_fixed": 6.125,
     "5_1_arm": 5.875,
