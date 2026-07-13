@@ -23,23 +23,30 @@ def scrape(fetch_html):
     """
     jina_url = "https://r.jina.ai/https://www.golden1.com/credit-cards-loans/home-loans/rates"
 
-    try:
-        result = subprocess.run(
-            ["curl", "-sL", "--max-time", "25", jina_url],
-            capture_output=True,
-            text=True,
-            timeout=30,
-        )
-        if result.returncode != 0:
-            raise RuntimeError(f"curl exited {result.returncode}")
-        text = result.stdout
-    except subprocess.TimeoutExpired:
-        raise RuntimeError("Golden1: Jina reader timed out")
-    except FileNotFoundError:
-        raise RuntimeError("Golden1: curl not available")
+    import time
+    text = None
+    for attempt in range(3):
+        try:
+            result = subprocess.run(
+                ["curl", "-sL", "--max-time", "25", jina_url],
+                capture_output=True,
+                text=True,
+                timeout=30,
+            )
+            if result.returncode != 0:
+                raise RuntimeError(f"curl exited {result.returncode}")
+            text = result.stdout
+        except subprocess.TimeoutExpired:
+            raise RuntimeError("Golden1: Jina reader timed out")
+        except FileNotFoundError:
+            raise RuntimeError("Golden1: curl not available")
 
-    if not text or len(text) < 500:
-        raise RuntimeError(f"Golden1: Jina returned too little content ({len(text) if text else 0} chars)")
+        if text and len(text) >= 500:
+            break
+        print(f"  ⚠ Golden1 attempt {attempt+1} failed ({len(text) if text else 0} chars), retrying...")
+        time.sleep(3)
+    else:
+        raise RuntimeError(f"Golden1: Jina returned too little content after 3 attempts ({len(text) if text else 0} chars)")
 
     fixed_entries = []
     arm_entries = []
