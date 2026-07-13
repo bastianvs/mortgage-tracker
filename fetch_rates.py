@@ -72,12 +72,14 @@ def run_all_scrapers():
     from scrapers.patelco import scrape as sc_patelco
     from scrapers.starone import scrape as sc_starone
     from scrapers.wellsfargo import scrape as sc_wf
+    from scrapers.golden1 import scrape as sc_golden1
     from scrapers.pmms import scrape as sc_pmms
 
     scrapers = [
         ("patelco", sc_patelco),
         ("starone", sc_starone),
         ("wellsfargo", sc_wf),
+        ("golden1", sc_golden1),
     ]
 
     institutions = {}
