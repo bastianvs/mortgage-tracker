@@ -156,12 +156,14 @@
       <div class="summary-card"><div class="label">5/1 ARM</div><div class="value" id="rArm">—</div></div>
       <div class="summary-card"><div class="label">10/1 ARM</div><div class="value" id="rArm10">—</div></div>
       <div class="summary-card"><div class="label">Best 30yr Offer</div><div class="value" id="rBest">—</div></div>
+      <div class="summary-card my-rate" id="myRateCard" style="display:none"><div class="label">Your Rate</div><div class="value" id="myRateValue">—</div></div>
     </div>
 
     <!-- Rate Comparison (hidden by default, shown if data has profile) -->
     <div class="comparison" id="comparison" style="display:none;">
       <div class="badge" id="cmpBadge">—</div>
       <h3 id="cmpText"></h3>
+      <p style="margin-top:0.5rem;color:var(--text-dim);font-size:0.9rem;">Your <span id="cmpLoanType">5/1 ARM</span> rate: <strong id="cmpMyRate" style="color:var(--accent)">5.800%</strong> vs market avg: <strong id="cmpMarketRate" style="color:var(--green)"></strong></p>
     </div>
 
     <!-- Rate History Chart -->
@@ -238,6 +240,12 @@
         document.getElementById('rArm10').textContent = fmt(s['10_1_arm']);
         document.getElementById('rBest').textContent = fmt(s['best_30yr_lender_rate']);
 
+        // Your Rate card
+        if (data.profile?.currentRate) {
+          document.getElementById('myRateCard').style.display = 'block';
+          document.getElementById('myRateValue').textContent = data.profile.currentRate.toFixed(3) + '%';
+        }
+
         // Comparison
         if (s.vs_my_rate) {
           const cmp = s.vs_my_rate;
@@ -256,6 +264,9 @@
           }
           badge.textContent = `${cmp.difference > 0 ? '+' : ''}${cmp.difference}% vs Market`;
           text.textContent = cmp.assessment;
+
+          document.getElementById('cmpMyRate').textContent = cmp.my_rate.toFixed(3) + '%';
+          document.getElementById('cmpMarketRate').textContent = cmp.market_rate.toFixed(3) + '%';
         }
 
         // Lender table - replaced with institutions summary

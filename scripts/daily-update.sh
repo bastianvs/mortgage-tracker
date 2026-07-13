@@ -32,6 +32,7 @@ echo "→ Deploying to GitHub Pages..."
 TMPDIR=$(mktemp -d)
 cp site/data/latest.json "$TMPDIR/"
 cp site/data/history.json "$TMPDIR/" 2>/dev/null || true
+cp site/index.html "$TMPDIR/"
 
 git stash 2>/dev/null || true
 git checkout gh-pages 2>&1
@@ -39,8 +40,9 @@ git checkout gh-pages 2>&1
 mkdir -p data
 cp "$TMPDIR/latest.json" data/
 cp "$TMPDIR/history.json" data/ 2>/dev/null || true
+cp "$TMPDIR/index.html" . 2>/dev/null || true
 
-git add data/
+git add data/ index.html
 if git diff --cached --quiet; then
   echo "No changes to deploy."
 else
