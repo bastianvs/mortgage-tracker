@@ -186,13 +186,10 @@
     <table class="lender-table" id="lenderTable">
       <thead>
         <tr>
-          <th>#</th>
           <th>Lender</th>
-          <th>Product</th>
-          <th>Rate</th>
-          <th>APR</th>
-          <th>Points</th>
-          <th>Monthly Payment</th>
+          <th>30yr Fixed</th>
+          <th>15yr Fixed</th>
+          <th>5/1 ARM</th>
         </tr>
       </thead>
       <tbody id="lenderBody">
@@ -256,27 +253,25 @@
           text.textContent = cmp.assessment;
         }
 
-        // Lender table
+        // Lender table - replaced with institutions summary
         const tbody = document.getElementById('lenderBody');
-        const offers = (data.lenderOffers || []).sort((a, b) => (a.rate || 99) - (b.rate || 99));
+        const insts = data.institutions || {};
+        const activeInsts = Object.values(insts).filter(i => (i.fixed?.length || i.arm?.length) && i.name !== 'Freddie Mac PMMS');
         
-        if (!offers.length) {
-          tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-dim)">No lender offers available</td></tr>';
+        if (!activeInsts.length) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-dim)">No institution data available</td></tr>';
         } else {
-          tbody.innerHTML = offers.map((l, i) => `
-            <tr>
-              <td>${i + 1}</td>
-              <td>
-                ${l.logo ? `<img src="${l.logo}" class="lender-logo" alt="" onerror="this.style.display='none'">` : ''}
-                <span class="lender-name">${l.lender}</span>
-              </td>
-              <td>${l.product || ''}</td>
-              <td class="rate-cell">${l.rate ? l.rate.toFixed(3) + '%' : '—'}</td>
-              <td>${l.apr ? l.apr.toFixed(3) + '%' : '—'}</td>
-              <td>${l.points != null ? l.points.toFixed(3) : '—'}</td>
-              <td>${l.monthlyPayment ? '$' + Math.round(l.monthlyPayment).toLocaleString() : '—'}</td>
-            </tr>
-          `).join('');
+          tbody.innerHTML = activeInsts.map(i => {
+            const best30 = i.fixed?.filter(f => f.term.includes('30')).sort((a,b) => a.rate - b.rate)[0];
+            const best15 = i.fixed?.filter(f => f.term.includes('15')).sort((a,b) => a.rate - b.rate)[0];
+            const bestArm = i.arm?.filter(a => a.term === '5/1 ARM').sort((a,b) => a.rate - b.rate)[0];
+            return `<tr>
+              <td><span class="lender-name">${i.name}</span></td>
+              <td>${best30 ? best30.rate.toFixed(3) + '%' : '—'}</td>
+              <td>${best15 ? best15.rate.toFixed(3) + '%' : '—'}</td>
+              <td>${bestArm ? bestArm.rate.toFixed(3) + '%' : '—'}</td>
+            </tr>`;
+          }).join('');
         }
       })
       .catch(err => {
@@ -287,7 +282,7 @@
     fetch('data/latest.json')
       .then(r => r.json())
       .then(data => {
-        const cus = data.creditUnions;
+        const cus = data.institutions;
         if (!cus) return;
         const container = document.getElementById('creditUnions');
         const myRate = data.profile?.currentRate;
@@ -295,6 +290,9 @@
 
         let html = '';
         for (const [key, cu] of Object.entries(cus)) {
+          // Skip PMMS (has 'rates' not 'fixed'/'arm') and empty results
+          if (!cu.fixed && !cu.arm) continue;
+          if (!cu.fixed?.length && !cu.arm?.length) continue;
           let rows = '';
           if (cu.fixed?.length) {
             rows += `<div class="cu-section-label">Fixed Rates</div>`;
