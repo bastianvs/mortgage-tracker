@@ -6,11 +6,19 @@ set -euo pipefail
 
 TRACKER_DIR="/home/node/.openclaw/workspace/mortgage-tracker"
 export GIT_SSH_COMMAND="ssh -i /home/node/.ssh/id_ed25519_bastianvs -o IdentitiesOnly=yes"
+
+# Supabase — for historical rate tracking
+if [ -f "$TRACKER_DIR/.env" ]; then
+  set -a; source "$TRACKER_DIR/.env"; set +a
+fi
+export SUPABASE_URL="https://ozeeqcefpwcfhmhstmon.supabase.co"
+export SUPABASE_SERVICE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96ZWVxY2VmcHdjZmhtaHN0bW9uIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4Mzc5Mzk3NywiZXhwIjoyMDk5MzY5OTc3fQ.LGm71nWqOxxf9ZbwL5UUNmHecz8Oj58YcKuhvLhixU8"
+
 cd "$TRACKER_DIR"
 
 echo "=== Mortgage Rate Daily Update — $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
 
-# 1. Fetch latest rates (Python, no Bankrate)
+# 1. Fetch latest rates, upload to Supabase
 echo "→ Fetching rates..."
 python3 fetch_rates.py 2>&1
 

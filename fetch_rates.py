@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 """
 Mortgage Rate Fetcher v4 — Direct lender sources
-No Bankrate dependency.
-
-Sources:
-  Credit Unions: PatelCo, Star One, Provident, Golden 1, First Tech
+  Credit Unions: PatelCo, Star One, Golden 1
   Banks: Bank of America, Wells Fargo, Chase
+  National: Freddie Mac PMMS
 
 Output:
-  data/rates-YYYY-MM-DD.json
-  site/data/latest.json
+  data/rates-YYYY-MM-DD.json      — Daily snapshot
+  site/data/latest.json            — Latest for website
+  Supabase mortgage_rates table    — Historical tracking
 """
 
 import json
@@ -60,19 +59,97 @@ def get_client():
 
 
 def fetch_html(url: str, timeout: float = 12.0) -> str:
-    """Fetch page HTML with httpx."""
     client = get_client()
     r = client.get(url, timeout=timeout)
     r.raise_for_status()
     return r.text
 
 
+# ── Supabase upload ──────────────────────────────────────────────
+
+
+def upload_to_supabase(result: dict) -> bool:
+    """Push today's rates to Supabase mortgage_rates table for historical tracking."""
+    supabase_url = os.environ.get("SUPABASE_URL")
+    supabase_key = os.environ.get("SUPABASE_SERVICE_KEY")
+    if not supabase_url or not supabase_key:
+        print("  ⚠ Supabase: SUPABASE_URL/SUPABASE_SERVICE_KEY not set, skipping")
+        return False
+
+    institutions = result.get("institutions", {})
+    rows = []
+    today = result["date"]
+
+    # Pick lowest rate per (lender, term) — the DB unique constraint is on (date, lender, term)
+    best = {}
+    for _, inst in institutions.items():
+        name = inst.get("name", "Unknown")
+        for entry in inst.get("fixed", []) + inst.get("arm", []):
+            term = entry["term"]
+            rate = entry["rate"]
+            key = (name, term)
+            if key not in best or rate < best[key]["rate"]:
+                best[key] = {
+                    "date": today,
+                    "lender": name,
+                    "term": term,
+                    "rate": rate,
+                    "apr": entry.get("apr"),
+                }
+    rows = list(best.values())
+
+    if not rows:
+        print("  ⚠ Supabase: no rows to upload")
+        return False
+
+    # Upsert in batches of 50
+    import urllib.request
+    import ssl
+
+    ctx = ssl.create_default_context()
+    headers = {
+        "apikey": supabase_key,
+        "Authorization": f"Bearer {supabase_key}",
+        "Content-Type": "application/json",
+        "Prefer": "resolution=merge-duplicates",
+    }
+
+    success_count = 0
+    batch_size = 50
+    for i in range(0, len(rows), batch_size):
+        batch = rows[i:i + batch_size]
+        data = json.dumps(batch).encode("utf-8")
+        # Upsert: POST + on_conflict query param tells PG which columns form the conflict target
+        req = urllib.request.Request(
+            f"{supabase_url}/rest/v1/mortgage_rates?on_conflict=date,lender,term",
+            data=data,
+            headers=headers,
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=15, context=ctx) as resp:
+                status = resp.status
+                if status in (200, 201):
+                    success_count += len(batch)
+                else:
+                    print(f"  ⚠ Supabase batch {i//batch_size}: HTTP {status}")
+        except Exception as e:
+            print(f"  ⚠ Supabase batch {i//batch_size} failed: {e}")
+
+    print(f"  ✓ Uploaded {success_count}/{len(rows)} rate rows to Supabase")
+    return True
+
+
+# ── Scrapers ──────────────────────────────────────────────────────
+
+
 def run_all_scrapers():
-    """Run all scrapers and collect results."""
     from scrapers.patelco import scrape as sc_patelco
     from scrapers.starone import scrape as sc_starone
     from scrapers.wellsfargo import scrape as sc_wf
     from scrapers.golden1 import scrape as sc_golden1
+    from scrapers.bofa import scrape as sc_bofa
+    from scrapers.chase import scrape as sc_chase
     from scrapers.pmms import scrape as sc_pmms
 
     scrapers = [
@@ -80,6 +157,8 @@ def run_all_scrapers():
         ("starone", sc_starone),
         ("wellsfargo", sc_wf),
         ("golden1", sc_golden1),
+        ("bofa", sc_bofa),
+        ("chase", sc_chase),
     ]
 
     institutions = {}
@@ -110,8 +189,10 @@ def run_all_scrapers():
     return institutions, errors
 
 
+# ── Summary ────────────────────────────────────────────────────────
+
+
 def build_summary(institutions: dict) -> dict:
-    """Build summary from all institution data."""
     all_fixed_30 = []
     all_fixed_15 = []
     all_arm_5_1 = []
@@ -131,7 +212,6 @@ def build_summary(institutions: dict) -> dict:
             elif "10/1" in term:
                 all_arm_10_1.append(a["rate"])
 
-    # PMMS national averages
     pmms = institutions.get("pmms", {})
     pmms_rates = pmms.get("rates", {})
 
@@ -156,7 +236,6 @@ def build_summary(institutions: dict) -> dict:
         "institutions_count": len(institutions),
     }
 
-    # Backward-compatible aliases for website
     summary["30_year_fixed"] = summary["30_year_fixed_avg"] or pmms_rates.get("30_year_fixed")
     summary["15_year_fixed"] = summary["15_year_fixed_avg"] or pmms_rates.get("15_year_fixed")
     summary["5_1_arm"] = summary["5_1_arm_avg"]
@@ -189,6 +268,9 @@ def build_summary(institutions: dict) -> dict:
     return summary
 
 
+# ── Main ──────────────────────────────────────────────────────────
+
+
 def main():
     now = datetime.now(timezone.utc)
     today = now.strftime("%Y-%m-%d")
@@ -208,7 +290,7 @@ def main():
     if errors:
         result["errors"] = errors
 
-    # Save files
+    # Save local files
     day_file = DATA_DIR / f"rates-{today}.json"
     day_file.write_text(json.dumps(result, indent=2))
     print(f"\nSaved: {day_file}")
@@ -217,7 +299,11 @@ def main():
     latest_file.write_text(json.dumps(result, indent=2))
     print(f"Saved: {latest_file}")
 
-    # Print dashboard
+    # Upload to Supabase for historical tracking
+    print("\n→ Uploading to Supabase...")
+    upload_to_supabase(result)
+
+    # Dashboard
     print("\n" + "=" * 60)
     print(f"📊 MORTGAGE RATE DASHBOARD — {today}")
     print("=" * 60)
