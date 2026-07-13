@@ -1,3 +1,9 @@
 node_modules/
-.env
-*.log
+__pycache__/
+*.pyc
+data/scratch/
+scripts/find-decimals.js
+scripts/inspect-*.js
+scripts/parse-*.js
+scripts/search-*.js
+scripts/test-*.js

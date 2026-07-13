@@ -2,37 +2,35 @@
 set -euo pipefail
 
 # === Mortgage Rate Daily Update ===
-# Called by OpenClaw cron daily
-# Fetches rates, builds history, pushes to GitHub Pages, alerts on changes
+# Fetches rates (Python), builds history, pushes to GitHub Pages
 
 TRACKER_DIR="/home/node/.openclaw/workspace/mortgage-tracker"
+export GIT_SSH_COMMAND="ssh -i /home/node/.ssh/id_ed25519_bastianvs -o IdentitiesOnly=yes"
 cd "$TRACKER_DIR"
 
 echo "=== Mortgage Rate Daily Update — $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
 
-# 1. Fetch latest rates
+# 1. Fetch latest rates (Python, no Bankrate)
 echo "→ Fetching rates..."
-node scripts/fetch-rates.js 2>&1
+python3 fetch_rates.py 2>&1
 
 # 2. Build history.json for chart
 echo "→ Building history..."
-node scripts/build-history.js 2>&1
+python3 build_history.py 2>&1
 
 # 3. Push updated data to gh-pages branch
 echo "→ Deploying to GitHub Pages..."
 
-# Save latest data files to a temp location
 TMPDIR=$(mktemp -d)
 cp site/data/latest.json "$TMPDIR/"
-cp site/data/history.json "$TMPDIR/"
+cp site/data/history.json "$TMPDIR/" 2>/dev/null || true
 
-# Switch to gh-pages, update data, push
 git stash 2>/dev/null || true
 git checkout gh-pages 2>&1
 
 mkdir -p data
 cp "$TMPDIR/latest.json" data/
-cp "$TMPDIR/history.json" data/
+cp "$TMPDIR/history.json" data/ 2>/dev/null || true
 
 git add data/
 if git diff --cached --quiet; then
@@ -47,12 +45,5 @@ fi
 git checkout master 2>&1
 git stash pop 2>/dev/null || true
 rm -rf "$TMPDIR"
-
-# 4. Check for rate change alert
-ALERT_FILE="$TRACKER_DIR/data/last-change-report.txt"
-if [ -f "$ALERT_FILE" ]; then
-  echo "ALERT_CHANGE_DETECTED"
-  cat "$ALERT_FILE"
-fi
 
 echo "=== Done ==="
