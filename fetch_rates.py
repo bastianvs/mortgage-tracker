@@ -29,7 +29,7 @@ DATA_DIR.mkdir(parents=True, exist_ok=True)
 SITE_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 MY_PROFILE = {
-    "currentRate": 5.875757575757575,
+    "currentRate": 5.87575757575757575,
     "loanType": "5/1 ARM",
     "location": "Milpitas, CA 95035",
     "propertyType": "Single-family detached",
@@ -199,6 +199,7 @@ def build_summary(institutions: dict) -> dict:
     all_fixed_15 = []
     all_arm_5_1 = []
     all_arm_7_1 = []
+    all_arm_7_1 = []
     all_arm_10_1 = []
 
     for inst in institutions.values():
@@ -211,6 +212,9 @@ def build_summary(institutions: dict) -> dict:
         for a in inst.get("arm", []):
             term = a.get("term", "").lower()
             if "5/1" in term or "5-1" in term:
+                all_arm_5_1.append(a["rate"])
+            elif "7/1" in term or "7-1" in term or "7/6" in term:
+                all_arm_7_1.append(a["rate"])
                 all_arm_5_1.append(a["rate"])
             elif "7/1" in term or "7-1" in term or "7/6" in term:
                 all_arm_7_1.append(a["rate"])
@@ -235,6 +239,8 @@ def build_summary(institutions: dict) -> dict:
         "5_1_arm_best": best(all_arm_5_1),
         "7_1_arm_avg": avg(all_arm_7_1),
         "7_1_arm_best": best(all_arm_7_1),
+        "7_1_arm_avg": avg(all_arm_7_1),
+        "7_1_arm_best": best(all_arm_7_1),
         "10_1_arm_avg": avg(all_arm_10_1),
         "national_30_year_fixed": pmms_rates.get("30_year_fixed"),
         "national_15_year_fixed": pmms_rates.get("15_year_fixed"),
@@ -246,6 +252,8 @@ def build_summary(institutions: dict) -> dict:
     summary["30_year_fixed"] = summary["30_year_fixed_avg"] or pmms_rates.get("30_year_fixed")
     summary["15_year_fixed"] = summary["15_year_fixed_avg"] or pmms_rates.get("15_year_fixed")
     summary["5_1_arm"] = summary["5_1_arm_avg"]
+    summary["7_1_arm"] = summary["7_1_arm_avg"]
+    summary["best_7_1_arm"] = summary["7_1_arm_best"]
     summary["7_1_arm"] = summary["7_1_arm_avg"]
     summary["best_7_1_arm"] = summary["7_1_arm_best"]
     summary["10_1_arm"] = summary["10_1_arm_avg"]
