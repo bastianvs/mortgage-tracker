@@ -1,6 +1,6 @@
 {
   "date": "2026-07-14",
-  "fetchedAt": "2026-07-14T03:40:11.643202+00:00",
+  "fetchedAt": "2026-07-14T17:35:25.387905+00:00",
   "profile": {
     "currentRate": 5.875,
     "loanType": "5/1 ARM",
@@ -24,13 +24,13 @@
         },
         {
           "term": "15-Year Fixed",
-          "rate": 6.125,
-          "apr": 6.255
+          "rate": 6.0,
+          "apr": 6.128
         },
         {
           "term": "10-Year Fixed",
-          "rate": 6.125,
-          "apr": 6.309
+          "rate": 6.0,
+          "apr": 6.181
         },
         {
           "term": "30-Year Fixed",
@@ -110,17 +110,17 @@
         {
           "term": "15-Year Fixed",
           "rate": 5.75,
-          "apr": 6.0208
+          "apr": 6.0011
         },
         {
           "term": "30-Year Fixed",
           "rate": 5.875,
-          "apr": 6.0742
+          "apr": 6.0862
         },
         {
           "term": "30-Year Fixed",
           "rate": 6.625,
-          "apr": 6.7701
+          "apr": 6.7578
         }
       ],
       "arm": [
@@ -137,8 +137,8 @@
       "fixed": [
         {
           "term": "15-Year Fixed",
-          "rate": 5.5,
-          "apr": 5.5
+          "rate": 5.375,
+          "apr": 5.375
         },
         {
           "term": "15-Year Fixed Jumbo",
@@ -148,7 +148,7 @@
         {
           "term": "30-Year Fixed FHA",
           "rate": 5.99,
-          "apr": 6.713
+          "apr": 6.7
         },
         {
           "term": "30-Year Fixed Jumbo",
@@ -158,7 +158,7 @@
         {
           "term": "30-Year Fixed",
           "rate": 6.25,
-          "apr": 6.262
+          "apr": 6.25
         }
       ],
       "arm": [
@@ -200,85 +200,43 @@
       "fixed": [
         {
           "term": "15-Year Fixed",
-          "rate": 6.125,
-          "apr": 6.396
-        },
-        {
-          "term": "15-Year Fixed Jumbo",
-          "rate": 6.25,
-          "apr": 6.433
+          "rate": 6.0,
+          "apr": 6.319
         },
         {
           "term": "20-Year Fixed",
           "rate": 6.625,
-          "apr": 6.895
-        },
-        {
-          "term": "30-Year Fixed Jumbo",
-          "rate": 6.625,
-          "apr": 6.723
+          "apr": 6.893
         },
         {
           "term": "30-Year Fixed",
           "rate": 6.875,
-          "apr": 7.068
+          "apr": 7.061
         }
       ],
       "arm": [
         {
-          "term": "5/1 ARM Jumbo",
-          "rate": 5.625,
-          "apr": 6.194
-        },
-        {
           "term": "5/1 ARM",
           "rate": 6.0,
-          "apr": 6.419
+          "apr": 6.417
         },
         {
           "term": "7/1 ARM",
           "rate": 6.25,
-          "apr": 6.508
+          "apr": 6.494
         },
         {
           "term": "10/1 ARM",
           "rate": 6.375,
-          "apr": 6.58
+          "apr": 6.578
         }
       ]
     },
     "chase": {
       "name": "Chase",
       "url": "https://www.chase.com/personal/mortgage/refinance-rates",
-      "fixed": [
-        {
-          "term": "15-Year Fixed",
-          "rate": 5.375,
-          "apr": 5.677
-        },
-        {
-          "term": "30-Year Fixed FHA",
-          "rate": 5.75,
-          "apr": 6.476
-        },
-        {
-          "term": "30-Year Fixed Jumbo",
-          "rate": 5.875,
-          "apr": 6.058
-        },
-        {
-          "term": "30-Year Fixed",
-          "rate": 6.0,
-          "apr": 6.191
-        }
-      ],
-      "arm": [
-        {
-          "term": "7/1 ARM Jumbo",
-          "rate": 5.5,
-          "apr": 6.127
-        }
-      ]
+      "fixed": [],
+      "arm": []
     },
     "citi": {
       "name": "Citi",
@@ -287,27 +245,27 @@
         {
           "term": "15-Year Fixed",
           "rate": 5.625,
-          "apr": 5.844
+          "apr": 5.825
         },
         {
           "term": "30-Year Fixed FHA",
           "rate": 5.75,
-          "apr": 6.387
+          "apr": 6.362
         },
         {
           "term": "30-Year Fixed VA",
           "rate": 5.75,
-          "apr": 6.127
+          "apr": 6.103
+        },
+        {
+          "term": "30-Year Fixed Jumbo",
+          "rate": 6.25,
+          "apr": 6.357
         },
         {
           "term": "30-Year Fixed",
           "rate": 6.375,
-          "apr": 6.486
-        },
-        {
-          "term": "30-Year Fixed Jumbo",
-          "rate": 6.375,
-          "apr": 6.447
+          "apr": 6.462
         }
       ],
       "arm": []
@@ -323,13 +281,13 @@
     }
   },
   "summary": {
-    "30_year_fixed_avg": 6.277,
+    "30_year_fixed_avg": 6.33,
     "30_year_fixed_best": 5.75,
-    "15_year_fixed_avg": 5.92,
+    "15_year_fixed_avg": 5.903,
     "15_year_fixed_best": 5.375,
-    "5_1_arm_avg": 5.739,
+    "5_1_arm_avg": 5.778,
     "5_1_arm_best": 5.25,
-    "7_1_arm_avg": 5.812,
+    "7_1_arm_avg": 5.875,
     "7_1_arm_best": 5.375,
     "10_1_arm_avg": 5.969,
     "national_30_year_fixed": 6.49,
@@ -337,17 +295,17 @@
     "my_rate": 5.875,
     "my_loan_type": "5/1 ARM",
     "institutions_count": 8,
-    "30_year_fixed": 6.277,
-    "15_year_fixed": 5.92,
-    "5_1_arm": 5.739,
-    "7_1_arm": 5.812,
+    "30_year_fixed": 6.33,
+    "15_year_fixed": 5.903,
+    "5_1_arm": 5.778,
+    "7_1_arm": 5.875,
     "best_7_1_arm": 5.375,
     "10_1_arm": 5.969,
     "best_30yr_lender_rate": 5.75,
     "vs_my_rate": {
-      "market_rate": 5.739,
+      "market_rate": 5.778,
       "my_rate": 5.875,
-      "difference": -0.136,
+      "difference": -0.097,
       "assessment": "\ud83d\udfe0 Market is slightly better \u2014 watch for refinance"
     }
   }
