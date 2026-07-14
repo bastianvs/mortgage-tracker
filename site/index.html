@@ -155,6 +155,7 @@
       <div class="summary-card"><div class="label">15-Year Fixed</div><div class="value" id="r15">—</div></div>
       <div class="summary-card"><div class="label">5/1 ARM</div><div class="value" id="rArm">—</div></div>
       <div class="summary-card"><div class="label">10/1 ARM</div><div class="value" id="rArm10">—</div></div>
+      <div class="summary-card"><div class="label">7/1 ARM</div><div class="value" id="rArm7">—</div></div>
       <div class="summary-card"><div class="label">Best 30yr Offer</div><div class="value" id="rBest">—</div></div>
       <div class="summary-card my-rate" id="myRateCard" style="display:none"><div class="label">Your Rate</div><div class="value" id="myRateValue">—</div></div>
     </div>
@@ -192,6 +193,7 @@
           <th>30yr Fixed</th>
           <th>15yr Fixed</th>
           <th>5/1 ARM</th>
+          <th>7/1 ARM</th>
         </tr>
       </thead>
       <tbody id="lenderBody">
@@ -238,6 +240,7 @@
         document.getElementById('r15').textContent = fmt(s['15_year_fixed']);
         document.getElementById('rArm').textContent = fmt(s['5_1_arm']);
         document.getElementById('rArm10').textContent = fmt(s['10_1_arm']);
+        document.getElementById('rArm7').textContent = fmt(s['7_1_arm']);
         document.getElementById('rBest').textContent = fmt(s['best_30yr_lender_rate']);
 
         // Your Rate card
@@ -281,11 +284,13 @@
             const best30 = i.fixed?.filter(f => f.term.includes('30')).sort((a,b) => a.rate - b.rate)[0];
             const best15 = i.fixed?.filter(f => f.term.includes('15')).sort((a,b) => a.rate - b.rate)[0];
             const bestArm = i.arm?.filter(a => a.term === '5/1 ARM').sort((a,b) => a.rate - b.rate)[0];
+            const bestArm7 = i.arm?.filter(a => a.term.includes('7/1')).sort((a,b) => a.rate - b.rate)[0];
             return `<tr>
               <td><span class="lender-name">${i.name}</span></td>
               <td>${best30 ? best30.rate.toFixed(3) + '%' : '—'}</td>
               <td>${best15 ? best15.rate.toFixed(3) + '%' : '—'}</td>
               <td>${bestArm ? bestArm.rate.toFixed(3) + '%' : '—'}</td>
+              <td>${bestArm7 ? bestArm7.rate.toFixed(3) + '%' : '—'}</td>
             </tr>`;
           }).join('');
         }
