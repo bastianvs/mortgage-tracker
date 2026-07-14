@@ -29,7 +29,7 @@ DATA_DIR.mkdir(parents=True, exist_ok=True)
 SITE_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 MY_PROFILE = {
-    "currentRate": 5.87575757575757575,
+    "currentRate": 5.875757575757575757575,
     "loanType": "5/1 ARM",
     "location": "Milpitas, CA 95035",
     "propertyType": "Single-family detached",
