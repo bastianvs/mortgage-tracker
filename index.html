@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mortgage Rate Tracker — Daily Rates from Major Lenders</title>
+  <meta name="description" content="Daily mortgage rates tracked from major US lenders. Updated daily with 30-year fixed, 15-year fixed, 5/1 ARM, and lender-specific offers.">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --card-hover: #334155;
+      --text: #f1f5f9;
+      --text-dim: #94a3b8;
+      --accent: #38bdf8;
+      --green: #4ade80;
+      --red: #f87171;
+      --yellow: #facc15;
+      --border: #334155;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+    
+    /* Header */
+    .header { text-align: center; margin-bottom: 3rem; }
+    .header h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .header h1 span { color: var(--accent); }
+    .header p { color: var(--text-dim); font-size: 1.1rem; }
+    .header .updated { color: var(--green); font-size: 0.9rem; margin-top: 0.5rem; }
+
+    /* Summary Cards */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .summary-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .summary-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+    .summary-card .label { color: var(--text-dim); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
+    .summary-card .value { font-size: 2rem; font-weight: 700; }
+    .summary-card.highlight .value { color: var(--accent); }
+    .summary-card.my-rate { border-color: var(--accent); background: linear-gradient(135deg, #1e293b, #0c4a6e); }
+    .summary-card.my-rate .value { color: var(--accent); }
+
+    /* Comparison Banner */
+    .comparison {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+    .comparison .badge { display: inline-block; padding: 0.5rem 1.5rem; border-radius: 50px; font-weight: 600; font-size: 1rem; }
+    .comparison .badge.good { background: rgba(74, 222, 128, 0.15); color: var(--green); border: 1px solid rgba(74, 222, 128, 0.3); }
+    .comparison .badge.bad { background: rgba(248, 113, 113, 0.15); color: var(--red); border: 1px solid rgba(248, 113, 113, 0.3); }
+    .comparison .badge.neutral { background: rgba(250, 204, 21, 0.15); color: var(--yellow); border: 1px solid rgba(250, 204, 21, 0.3); }
+    .comparison h3 { margin-top: 1rem; font-size: 1.2rem; }
+
+    /* Lender Table */
+    .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .lender-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .lender-table th {
+      background: #0f172a;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+    .lender-table td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .lender-table tr:last-child td { border-bottom: none; }
+    .lender-table tr:hover { background: var(--card-hover); }
+    .lender-table .rate-cell { font-weight: 700; color: var(--green); }
+    .lender-logo { width: 24px; height: 24px; border-radius: 4px; vertical-align: middle; margin-right: 0.5rem; }
+    .lender-name { vertical-align: middle; }
+
+    /* History Chart */
+    .chart-container {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+    .chart { width: 100%; height: 300px; position: relative; }
+    .chart-legend { display: flex; gap: 1.5rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+    .chart-legend span { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; color: var(--text-dim); }
+    .chart-legend .dot { width: 12px; height: 12px; border-radius: 50%; }
+
+    /* Credit Union Cards */
+    .cu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+    .cu-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+    .cu-card h3 { font-size: 1.1rem; margin-bottom: 1rem; color: var(--accent); }
+    .cu-card .cu-rate-row { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid rgba(51,65,85,0.5); font-size: 0.9rem; }
+    .cu-card .cu-rate-row:last-child { border-bottom: none; }
+    .cu-card .cu-term { color: var(--text-dim); }
+    .cu-card .cu-rate { font-weight: 700; color: var(--green); }
+    .cu-card .cu-apr { color: var(--text-dim); font-size: 0.8rem; }
+    .cu-card .cu-section-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); margin: 0.75rem 0 0.25rem; }
+    .cu-card a { color: var(--accent); text-decoration: none; font-size: 0.8rem; }
+    .cu-card .cu-myrate { background: rgba(56,189,248,0.1); border-radius: 4px; padding: 0.2rem 0.4rem; margin-left: 0.3rem; font-size: 0.7rem; color: var(--accent); }
+
+    /* Footer */
+    .footer { text-align: center; color: var(--text-dim); font-size: 0.85rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+    .footer a { color: var(--accent); text-decoration: none; }
+    
+    /* Loading */
+    .loading { text-align: center; padding: 3rem; color: var(--text-dim); }
+
+    @media (max-width: 768px) {
+      .lender-table { font-size: 0.85rem; }
+      .lender-table th, .lender-table td { padding: 0.5rem; }
+      .header h1 { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📊 <span>Rate</span>Tracker</h1>
+      <p>Daily mortgage rates from major US lenders</p>
+      <div class="updated" id="updated">Loading latest rates...</div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="summary-grid" id="summaryGrid">
+      <div class="summary-card"><div class="label">30-Year Fixed</div><div class="value" id="r30">—</div></div>
+      <div class="summary-card"><div class="label">15-Year Fixed</div><div class="value" id="r15">—</div></div>
+      <div class="summary-card"><div class="label">5/1 ARM</div><div class="value" id="rArm">—</div></div>
+      <div class="summary-card"><div class="label">10/1 ARM</div><div class="value" id="rArm10">—</div></div>
+      <div class="summary-card"><div class="label">7/1 ARM</div><div class="value" id="rArm7">—</div></div>
+      <div class="summary-card"><div class="label">Best 30yr Offer</div><div class="value" id="rBest">—</div></div>
+      <div class="summary-card my-rate" id="myRateCard" style="display:none"><div class="label">Your Rate</div><div class="value" id="myRateValue">—</div></div>
+    </div>
+
+    <!-- Rate Comparison (hidden by default, shown if data has profile) -->
+    <div class="comparison" id="comparison" style="display:none;">
+      <div class="badge" id="cmpBadge">—</div>
+      <h3 id="cmpText"></h3>
+      <p style="margin-top:0.5rem;color:var(--text-dim);font-size:0.9rem;">Your <span id="cmpLoanType">5/1 ARM</span> rate: <strong id="cmpMyRate" style="color:var(--accent)">5.800%</strong> vs market avg: <strong id="cmpMarketRate" style="color:var(--green)"></strong></p>
+    </div>
+
+    <!-- Rate History Chart -->
+    <div class="section-title">📈 Rate Trends (Last 30 Days)</div>
+    <div class="chart-container">
+      <canvas id="historyChart" class="chart"></canvas>
+      <div class="chart-legend">
+        <span><span class="dot" style="background:#38bdf8"></span> 30-Year Fixed</span>
+        <span><span class="dot" style="background:#4ade80"></span> 15-Year Fixed</span>
+        <span><span class="dot" style="background:#facc15"></span> 5/1 ARM</span>
+      </div>
+    </div>
+
+    <!-- Local Credit Union Rates -->
+    <div class="section-title">🏛️ Local Credit Union Rates</div>
+    <div id="creditUnions" class="cu-grid">
+      <p style="color: var(--text-dim);">Loading credit union rates...</p>
+    </div>
+
+    <!-- Lender Offers Table -->
+    <div class="section-title">🏦 Today's Top Lender Offers</div>
+    <table class="lender-table" id="lenderTable">
+      <thead>
+        <tr>
+          <th>Lender</th>
+          <th>30yr Fixed</th>
+          <th>15yr Fixed</th>
+          <th>5/1 ARM</th>
+          <th>7/1 ARM</th>
+        </tr>
+      </thead>
+      <tbody id="lenderBody">
+        <tr><td colspan="7" class="loading">Loading lender offers...</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Data Sources -->
+    <div class="section-title" style="margin-top: 3rem;">📋 Data Sources</div>
+    <div style="color: var(--text-dim); font-size: 0.9rem; line-height: 1.8;">
+      <ul style="list-style: none; padding: 0;">
+        <li>• <strong>Bank of America</strong> — National bank conforming &amp; jumbo rates</li>
+        <li>• <strong>Citi</strong> — National bank refinance rates</li>
+        <li>• <strong>Chase</strong> — National bank refinance rates</li>
+        <li>• <strong>Wells Fargo</strong> — National bank conforming rates</li>
+        <li>• <strong>Golden 1 Credit Union</strong> — California's largest credit union (Sacramento-based)</li>
+        <li>• <strong>PatelCo Credit Union</strong> — Local SF Bay Area credit union rates</li>
+        <li>• <strong>Star One Credit Union</strong> — Silicon Valley credit union rates</li>
+        <li>• <strong>Freddie Mac PMMS</strong> — National weekly survey averages</li>
+        <li>• Rates reflect purchase money mortgages for single-family detached homes</li>
+        <li>• Assumptions: 780+ credit score, conforming loan limits, 20% down payment</li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      <p>Data updated automatically every day. Rates are for informational purposes only.</p>
+      <p>Actual rates may vary based on your credit profile, loan amount, and location.</p>
+      <p style="margin-top: 0.5rem;">Built with ❤️</p>
+    </div>
+  </div>
+
+  <script>
+    // Load latest rates
+    fetch('data/latest.json')
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById('updated').textContent = 
+          `Last updated: ${new Date(data.fetchedAt).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'short' })}`;
+
+        const s = data.summary || {};
+        const fmt = v => v != null ? v.toFixed(2) + '%' : 'N/A';
+        
+        document.getElementById('r30').textContent = fmt(s['30_year_fixed']);
+        document.getElementById('r15').textContent = fmt(s['15_year_fixed']);
+        document.getElementById('rArm').textContent = fmt(s['5_1_arm']);
+        document.getElementById('rArm10').textContent = fmt(s['10_1_arm']);
+        document.getElementById('rArm7').textContent = fmt(s['7_1_arm']);
+        document.getElementById('rBest').textContent = fmt(s['best_30yr_lender_rate']);
+
+        // Your Rate card
+        if (data.profile?.currentRate) {
+          document.getElementById('myRateCard').style.display = 'block';
+          document.getElementById('myRateValue').textContent = data.profile.currentRate.toFixed(3) + '%';
+        }
+
+        // Comparison
+        if (s.vs_my_rate) {
+          const cmp = s.vs_my_rate;
+          const el = document.getElementById('comparison');
+          const badge = document.getElementById('cmpBadge');
+          const text = document.getElementById('cmpText');
+          
+          el.style.display = 'block';
+          
+          if (cmp.difference > 0.1) {
+            badge.className = 'badge good';
+          } else if (cmp.difference < -0.1) {
+            badge.className = 'badge bad';
+          } else {
+            badge.className = 'badge neutral';
+          }
+          badge.textContent = `${cmp.difference > 0 ? '+' : ''}${cmp.difference}% vs Market`;
+          text.textContent = cmp.assessment;
+
+          document.getElementById('cmpMyRate').textContent = cmp.my_rate.toFixed(3) + '%';
+          document.getElementById('cmpMarketRate').textContent = cmp.market_rate.toFixed(3) + '%';
+        }
+
+        // Lender table - replaced with institutions summary
+        const tbody = document.getElementById('lenderBody');
+        const insts = data.institutions || {};
+        const activeInsts = Object.values(insts).filter(i => (i.fixed?.length || i.arm?.length) && i.name !== 'Freddie Mac PMMS');
+        
+        if (!activeInsts.length) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-dim)">No institution data available</td></tr>';
+        } else {
+          tbody.innerHTML = activeInsts.map(i => {
+            const best30 = i.fixed?.filter(f => f.term.includes('30')).sort((a,b) => a.rate - b.rate)[0];
+            const best15 = i.fixed?.filter(f => f.term.includes('15')).sort((a,b) => a.rate - b.rate)[0];
+            const bestArm = i.arm?.filter(a => a.term === '5/1 ARM').sort((a,b) => a.rate - b.rate)[0];
+            const bestArm7 = i.arm?.filter(a => a.term.includes('7/1')).sort((a,b) => a.rate - b.rate)[0];
+            return `<tr>
+              <td><span class="lender-name">${i.name}</span></td>
+              <td>${best30 ? best30.rate.toFixed(3) + '%' : '—'}</td>
+              <td>${best15 ? best15.rate.toFixed(3) + '%' : '—'}</td>
+              <td>${bestArm ? bestArm.rate.toFixed(3) + '%' : '—'}</td>
+              <td>${bestArm7 ? bestArm7.rate.toFixed(3) + '%' : '—'}</td>
+            </tr>`;
+          }).join('');
+        }
+      })
+      .catch(err => {
+        document.getElementById('updated').textContent = 'Error loading rates: ' + err.message;
+      });
+
+    // Load credit union rates (same latest.json)
+    fetch('data/latest.json')
+      .then(r => r.json())
+      .then(data => {
+        const cus = data.institutions;
+        if (!cus) return;
+        const container = document.getElementById('creditUnions');
+        const myRate = data.profile?.currentRate;
+        const myLoanType = data.profile?.loanType || '';
+
+        let html = '';
+        for (const [key, cu] of Object.entries(cus)) {
+          // Skip PMMS (has 'rates' not 'fixed'/'arm') and empty results
+          if (!cu.fixed && !cu.arm) continue;
+          if (!cu.fixed?.length && !cu.arm?.length) continue;
+          let rows = '';
+          if (cu.fixed?.length) {
+            rows += `<div class="cu-section-label">Fixed Rates</div>`;
+            // Deduplicate by term (keep lowest rate per term)
+            const byTerm = {};
+            for (const f of cu.fixed) {
+              if (!byTerm[f.term] || f.rate < byTerm[f.term].rate) byTerm[f.term] = f;
+            }
+            for (const f of Object.values(byTerm).sort((a,b) => parseInt(b.term) - parseInt(a.term))) {
+              const isMyRate = myRate && Math.abs(f.rate - myRate) < 0.01;
+              rows += `<div class="cu-rate-row"><span class="cu-term">${f.term}${isMyRate ? '<span class="cu-myrate">YOUR RATE</span>' : ''}</span><span class="cu-rate">${f.rate.toFixed(3)}% <span class="cu-apr">APR ${f.apr.toFixed(3)}%</span></span></div>`;
+            }
+          }
+          if (cu.arm?.length) {
+            rows += `<div class="cu-section-label">ARM Rates</div>`;
+            const byTermA = {};
+            for (const a of cu.arm) {
+              if (!byTermA[a.term] || a.rate < byTermA[a.term].rate) byTermA[a.term] = a;
+            }
+            for (const a of Object.values(byTermA).sort((a,b) => parseInt(a.term) - parseInt(b.term))) {
+              const isMyRate = myRate && Math.abs(a.rate - myRate) < 0.01;
+              rows += `<div class="cu-rate-row"><span class="cu-term">${a.term}${isMyRate ? '<span class="cu-myrate">YOUR RATE</span>' : ''}</span><span class="cu-rate">${a.rate.toFixed(3)}% <span class="cu-apr">APR ${a.apr.toFixed(3)}%</span></span></div>`;
+            }
+          }
+          html += `<div class="cu-card"><h3>${cu.name}</h3>${rows}<a href="${cu.url}" target="_blank" rel="noopener">View full rates →</a></div>`;
+        }
+        container.innerHTML = html;
+      })
+      .catch(() => {});
+
+    // Load history for chart
+    fetch('data/history.json')
+      .then(r => r.json())
+      .then(history => {
+        drawChart(history);
+      })
+      .catch(() => {
+        document.getElementById('historyChart').parentElement.innerHTML = 
+          '<p style="text-align:center;color:var(--text-dim)">History chart will appear after multiple days of data collection.</p>';
+      });
+
+    function drawChart(history) {
+      const canvas = document.getElementById('historyChart');
+      if (!canvas) return;
+      
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+
+      const W = rect.width;
+      const H = rect.height;
+      const pad = { top: 20, right: 20, bottom: 40, left: 50 };
+      const cw = W - pad.left - pad.right;
+      const ch = H - pad.top - pad.bottom;
+
+      const days = history.length;
+      if (days < 2) {
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '14px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Not enough data for chart yet. Check back tomorrow!', W/2, H/2);
+        return;
+      }
+
+      // Get all rate values
+      const series = [
+        { key: '30_year_fixed', color: '#38bdf8', label: '30yr Fixed' },
+        { key: '15_year_fixed', color: '#4ade80', label: '15yr Fixed' },
+        { key: '5_1_arm', color: '#facc15', label: '5/1 ARM' },
+      ];
+
+      let allVals = [];
+      history.forEach(d => {
+        series.forEach(s => {
+          if (d.summary?.[s.key] != null) allVals.push(d.summary[s.key]);
+        });
+      });
+
+      if (!allVals.length) return;
+
+      const minVal = Math.min(...allVals) - 0.1;
+      const maxVal = Math.max(...allVals) + 0.1;
+      const valRange = maxVal - minVal;
+
+      // Y axis labels
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '11px sans-serif';
+      ctx.textAlign = 'right';
+      for (let i = 0; i <= 4; i++) {
+        const v = minVal + (valRange * i / 4);
+        const y = pad.top + ch - (ch * i / 4);
+        ctx.fillText(v.toFixed(2) + '%', pad.left - 8, y + 4);
+        ctx.strokeStyle = '#334155';
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(pad.left + cw, y);
+        ctx.stroke();
+      }
+
+      // X axis labels (dates)
+      ctx.textAlign = 'center';
+      history.forEach((d, i) => {
+        const x = pad.left + (cw * i / (days - 1));
+        if (i === 0 || i === days - 1 || i === Math.floor(days / 2)) {
+          const date = new Date(d.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+          ctx.fillText(date, x, H - 10);
+        }
+      });
+
+      // Draw lines
+      series.forEach(s => {
+        ctx.strokeStyle = s.color;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        let started = false;
+        history.forEach((d, i) => {
+          const v = d.summary?.[s.key];
+          if (v == null) return;
+          const x = pad.left + (cw * i / (days - 1));
+          const y = pad.top + ch - ((v - minVal) / valRange) * ch;
+          if (!started) { ctx.moveTo(x, y); started = true; }
+          else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        // Draw points
+        history.forEach((d, i) => {
+          const v = d.summary?.[s.key];
+          if (v == null) return;
+          const x = pad.left + (cw * i / (days - 1));
+          const y = pad.top + ch - ((v - minVal) / valRange) * ch;
+          ctx.fillStyle = s.color;
+          ctx.beginPath();
+          ctx.arc(x, y, 3, 0, Math.PI * 2);
+          ctx.fill();
+        });
+      });
+    }
+  </script>
+</body>
+</html>
