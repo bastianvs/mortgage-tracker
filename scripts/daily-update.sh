@@ -37,12 +37,19 @@ cp site/index.html "$TMPDIR/"
 git stash 2>/dev/null || true
 git checkout gh-pages 2>&1
 
+# Ensure CNAME exists for custom domain (rates.bastian.services)
+echo "rates.bastian.services" > CNAME
+
+# Clean any stray files from bad deploys
+git rm -r --ignore-unmatch scrapers site 2>/dev/null || true
+
 mkdir -p data
 cp "$TMPDIR/latest.json" data/
 cp "$TMPDIR/history.json" data/ 2>/dev/null || true
-cp "$TMPDIR/index.html" . 2>/dev/null || true
+cp "$TMPDIR/index.html" .
 
-git add data/ index.html
+touch .nojekyll
+git add -A
 if git diff --cached --quiet; then
   echo "No changes to deploy."
 else
