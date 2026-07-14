@@ -1,6 +1,6 @@
 {
   "date": "2026-07-14",
-  "fetchedAt": "2026-07-14T17:35:25.387905+00:00",
+  "fetchedAt": "2026-07-14T21:32:36.034010+00:00",
   "profile": {
     "currentRate": 5.875,
     "loanType": "5/1 ARM",
@@ -61,8 +61,8 @@
       "fixed": [
         {
           "term": "10-Year Fixed",
-          "rate": 5.875,
-          "apr": 5.982
+          "rate": 5.75,
+          "apr": 5.854
         },
         {
           "term": "15-Year Fixed",
@@ -76,8 +76,8 @@
         },
         {
           "term": "30-Year Fixed",
-          "rate": 6.625,
-          "apr": 6.738
+          "rate": 6.375,
+          "apr": 6.485
         }
       ],
       "arm": [
@@ -235,39 +235,40 @@
     "chase": {
       "name": "Chase",
       "url": "https://www.chase.com/personal/mortgage/refinance-rates",
-      "fixed": [],
-      "arm": []
-    },
-    "citi": {
-      "name": "Citi",
-      "url": "https://www.citi.com/mortgage/refinance-rates",
       "fixed": [
         {
           "term": "15-Year Fixed",
-          "rate": 5.625,
-          "apr": 5.825
+          "rate": 5.375,
+          "apr": 5.67
         },
         {
           "term": "30-Year Fixed FHA",
           "rate": 5.75,
-          "apr": 6.362
-        },
-        {
-          "term": "30-Year Fixed VA",
-          "rate": 5.75,
-          "apr": 6.103
+          "apr": 6.47
         },
         {
           "term": "30-Year Fixed Jumbo",
-          "rate": 6.25,
-          "apr": 6.357
+          "rate": 5.875,
+          "apr": 6.047
         },
         {
           "term": "30-Year Fixed",
-          "rate": 6.375,
-          "apr": 6.462
+          "rate": 5.99,
+          "apr": 6.177
         }
       ],
+      "arm": [
+        {
+          "term": "7/1 ARM Jumbo",
+          "rate": 5.5,
+          "apr": 6.118
+        }
+      ]
+    },
+    "citi": {
+      "name": "Citi",
+      "url": "https://www.citi.com/mortgage/refinance-rates",
+      "fixed": [],
       "arm": []
     },
     "pmms": {
@@ -281,13 +282,13 @@
     }
   },
   "summary": {
-    "30_year_fixed_avg": 6.33,
+    "30_year_fixed_avg": 6.297,
     "30_year_fixed_best": 5.75,
-    "15_year_fixed_avg": 5.903,
+    "15_year_fixed_avg": 5.875,
     "15_year_fixed_best": 5.375,
-    "5_1_arm_avg": 5.778,
+    "5_1_arm_avg": 5.75,
     "5_1_arm_best": 5.25,
-    "7_1_arm_avg": 5.875,
+    "7_1_arm_avg": 5.812,
     "7_1_arm_best": 5.375,
     "10_1_arm_avg": 5.969,
     "national_30_year_fixed": 6.49,
@@ -295,17 +296,17 @@
     "my_rate": 5.875,
     "my_loan_type": "5/1 ARM",
     "institutions_count": 8,
-    "30_year_fixed": 6.33,
-    "15_year_fixed": 5.903,
-    "5_1_arm": 5.778,
-    "7_1_arm": 5.875,
+    "30_year_fixed": 6.297,
+    "15_year_fixed": 5.875,
+    "5_1_arm": 5.75,
+    "7_1_arm": 5.812,
     "best_7_1_arm": 5.375,
     "10_1_arm": 5.969,
     "best_30yr_lender_rate": 5.75,
     "vs_my_rate": {
-      "market_rate": 5.778,
+      "market_rate": 5.75,
       "my_rate": 5.875,
-      "difference": -0.097,
+      "difference": -0.125,
       "assessment": "\ud83d\udfe0 Market is slightly better \u2014 watch for refinance"
     }
   }
