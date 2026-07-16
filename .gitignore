@@ -2,6 +2,7 @@ node_modules/
 __pycache__/
 *.pyc
 data/scratch/
+data/rates-*.json
 scripts/find-decimals.js
 scripts/inspect-*.js
 scripts/parse-*.js
