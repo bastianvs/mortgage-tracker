@@ -1,12 +1,12 @@
 [
   {
-    "date": "2026-07-25",
+    "date": "2026-07-26",
     "summary": {
-      "30_year_fixed": 6.513,
-      "15_year_fixed": 6.047,
-      "5_1_arm": 5.781,
+      "30_year_fixed": 6.375,
+      "15_year_fixed": 5.969,
+      "5_1_arm": 5.786,
       "10_1_arm": 5.917,
-      "best_30yr_lender_rate": 6.0,
+      "best_30yr_lender_rate": 5.875,
       "national_30_year_fixed": 6.58,
       "national_15_year_fixed": 5.96
     }
