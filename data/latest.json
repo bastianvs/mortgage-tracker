@@ -1,6 +1,6 @@
 {
   "date": "2026-07-30",
-  "fetchedAt": "2026-07-30T21:30:07.641452+00:00",
+  "fetchedAt": "2026-07-30T21:31:20.249951+00:00",
   "profile": {
     "currentRate": 5.875,
     "loanType": "5/1 ARM",
@@ -197,8 +197,25 @@
     "bofa": {
       "name": "Bank of America",
       "url": "https://www.bankofamerica.com/mortgage/refinance-rates/",
-      "fixed": [],
-      "arm": []
+      "fixed": [
+        {
+          "term": "15-Year Fixed Jumbo",
+          "rate": 6.375,
+          "apr": 6.558
+        },
+        {
+          "term": "30-Year Fixed Jumbo",
+          "rate": 6.625,
+          "apr": 6.741
+        }
+      ],
+      "arm": [
+        {
+          "term": "5/1 ARM Jumbo",
+          "rate": 5.75,
+          "apr": 6.233
+        }
+      ]
     },
     "chase": {
       "name": "Chase",
@@ -249,11 +266,11 @@
     }
   },
   "summary": {
-    "30_year_fixed_avg": 6.337,
+    "30_year_fixed_avg": 6.357,
     "30_year_fixed_best": 5.875,
-    "15_year_fixed_avg": 5.969,
+    "15_year_fixed_avg": 6.014,
     "15_year_fixed_best": 5.5,
-    "5_1_arm_avg": 5.768,
+    "5_1_arm_avg": 5.766,
     "5_1_arm_best": 5.375,
     "7_1_arm_avg": 5.875,
     "7_1_arm_best": 5.5,
@@ -263,17 +280,17 @@
     "my_rate": 5.875,
     "my_loan_type": "5/1 ARM",
     "institutions_count": 8,
-    "30_year_fixed": 6.337,
-    "15_year_fixed": 5.969,
-    "5_1_arm": 5.768,
+    "30_year_fixed": 6.357,
+    "15_year_fixed": 6.014,
+    "5_1_arm": 5.766,
     "7_1_arm": 5.875,
     "best_7_1_arm": 5.5,
     "10_1_arm": 5.917,
     "best_30yr_lender_rate": 5.875,
     "vs_my_rate": {
-      "market_rate": 5.768,
+      "market_rate": 5.766,
       "my_rate": 5.875,
-      "difference": -0.107,
+      "difference": -0.109,
       "assessment": "\ud83d\udfe0 Market is slightly better \u2014 watch for refinance"
     }
   }
