@@ -1,6 +1,6 @@
 {
   "date": "2026-08-02",
-  "fetchedAt": "2026-08-02T00:16:48.653915+00:00",
+  "fetchedAt": "2026-08-02T00:18:43.869209+00:00",
   "profile": {
     "currentRate": 5.875,
     "loanType": "5/1 ARM",
@@ -204,6 +204,16 @@
           "apr": 6.456
         },
         {
+          "term": "15-Year Fixed Jumbo",
+          "rate": 6.5,
+          "apr": 6.624
+        },
+        {
+          "term": "30-Year Fixed Jumbo",
+          "rate": 6.75,
+          "apr": 6.841
+        },
+        {
           "term": "20-Year Fixed",
           "rate": 6.875,
           "apr": 7.15
@@ -215,6 +225,11 @@
         }
       ],
       "arm": [
+        {
+          "term": "5/1 ARM Jumbo",
+          "rate": 5.875,
+          "apr": 6.268
+        },
         {
           "term": "7/1 ARM",
           "rate": 6.375,
@@ -276,11 +291,11 @@
     }
   },
   "summary": {
-    "30_year_fixed_avg": 6.427,
+    "30_year_fixed_avg": 6.452,
     "30_year_fixed_best": 5.875,
-    "15_year_fixed_avg": 6.0,
+    "15_year_fixed_avg": 6.05,
     "15_year_fixed_best": 5.5,
-    "5_1_arm_avg": 5.917,
+    "5_1_arm_avg": 5.912,
     "5_1_arm_best": 5.375,
     "7_1_arm_avg": 6.0,
     "7_1_arm_best": 5.5,
@@ -290,17 +305,17 @@
     "my_rate": 5.875,
     "my_loan_type": "5/1 ARM",
     "institutions_count": 8,
-    "30_year_fixed": 6.427,
-    "15_year_fixed": 6.0,
-    "5_1_arm": 5.917,
+    "30_year_fixed": 6.452,
+    "15_year_fixed": 6.05,
+    "5_1_arm": 5.912,
     "7_1_arm": 6.0,
     "best_7_1_arm": 5.5,
     "10_1_arm": 6.094,
     "best_30yr_lender_rate": 5.875,
     "vs_my_rate": {
-      "market_rate": 5.917,
+      "market_rate": 5.912,
       "my_rate": 5.875,
-      "difference": 0.042,
+      "difference": 0.037,
       "assessment": "\ud83d\udfe1 Market is about equal to your rate"
     }
   }
