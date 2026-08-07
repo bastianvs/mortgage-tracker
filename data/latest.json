@@ -1,6 +1,6 @@
 {
   "date": "2026-08-07",
-  "fetchedAt": "2026-08-07T21:31:04.176307+00:00",
+  "fetchedAt": "2026-08-07T21:31:51.984715+00:00",
   "profile": {
     "currentRate": 5.875,
     "loanType": "5/1 ARM",
@@ -199,14 +199,29 @@
       "url": "https://www.bankofamerica.com/mortgage/refinance-rates/",
       "fixed": [
         {
+          "term": "15-Year Fixed",
+          "rate": 6.125,
+          "apr": 6.433
+        },
+        {
           "term": "15-Year Fixed Jumbo",
           "rate": 6.375,
           "apr": 6.567
         },
         {
+          "term": "20-Year Fixed",
+          "rate": 6.75,
+          "apr": 6.985
+        },
+        {
           "term": "30-Year Fixed Jumbo",
           "rate": 6.75,
           "apr": 6.831
+        },
+        {
+          "term": "30-Year Fixed",
+          "rate": 6.875,
+          "apr": 7.086
         }
       ],
       "arm": [
@@ -214,6 +229,21 @@
           "term": "5/1 ARM Jumbo",
           "rate": 5.875,
           "apr": 6.256
+        },
+        {
+          "term": "5/1 ARM",
+          "rate": 6.125,
+          "apr": 6.466
+        },
+        {
+          "term": "7/1 ARM",
+          "rate": 6.25,
+          "apr": 6.5
+        },
+        {
+          "term": "10/1 ARM",
+          "rate": 6.5,
+          "apr": 6.64
         }
       ]
     },
@@ -226,7 +256,28 @@
     "citi": {
       "name": "Citi",
       "url": "https://www.citi.com/mortgage/refinance-rates",
-      "fixed": [],
+      "fixed": [
+        {
+          "term": "15-Year Fixed",
+          "rate": 5.75,
+          "apr": 5.911
+        },
+        {
+          "term": "30-Year Fixed VA",
+          "rate": 5.75,
+          "apr": 6.14
+        },
+        {
+          "term": "30-Year Fixed",
+          "rate": 6.375,
+          "apr": 6.498
+        },
+        {
+          "term": "30-Year Fixed Jumbo",
+          "rate": 6.375,
+          "apr": 6.459
+        }
+      ],
       "arm": []
     },
     "pmms": {
@@ -240,31 +291,31 @@
     }
   },
   "summary": {
-    "30_year_fixed_avg": 6.438,
-    "30_year_fixed_best": 6.0,
-    "15_year_fixed_avg": 6.031,
+    "30_year_fixed_avg": 6.411,
+    "30_year_fixed_best": 5.75,
+    "15_year_fixed_avg": 6.013,
     "15_year_fixed_best": 5.5,
-    "5_1_arm_avg": 5.828,
+    "5_1_arm_avg": 5.9,
     "5_1_arm_best": 5.5,
-    "7_1_arm_avg": 5.906,
+    "7_1_arm_avg": 5.975,
     "7_1_arm_best": 5.5,
-    "10_1_arm_avg": 5.958,
+    "10_1_arm_avg": 6.094,
     "national_30_year_fixed": 6.69,
     "national_15_year_fixed": 6.01,
     "my_rate": 5.875,
     "my_loan_type": "5/1 ARM",
     "institutions_count": 8,
-    "30_year_fixed": 6.438,
-    "15_year_fixed": 6.031,
-    "5_1_arm": 5.828,
-    "7_1_arm": 5.906,
+    "30_year_fixed": 6.411,
+    "15_year_fixed": 6.013,
+    "5_1_arm": 5.9,
+    "7_1_arm": 5.975,
     "best_7_1_arm": 5.5,
-    "10_1_arm": 5.958,
-    "best_30yr_lender_rate": 6.0,
+    "10_1_arm": 6.094,
+    "best_30yr_lender_rate": 5.75,
     "vs_my_rate": {
-      "market_rate": 5.828,
+      "market_rate": 5.9,
       "my_rate": 5.875,
-      "difference": -0.047,
+      "difference": 0.025,
       "assessment": "\ud83d\udfe1 Market is about equal to your rate"
     }
   }
