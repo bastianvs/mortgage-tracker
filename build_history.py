@@ -3,6 +3,7 @@
 Build history.json from all daily rate files.
 Run after fetch_rates.py to update the website's chart data.
 Handles both v3 (old) and v4 (new) summary key formats.
+Merges with existing history.json to preserve data across deploys.
 """
 
 import json
@@ -34,6 +35,20 @@ for f in files:
         },
     }
     history.append(entry)
+
+# If only a few days found (fresh directory), merge with existing history.json
+existing_file = SITE_DATA_DIR / "history.json"
+if existing_file.exists():
+    existing = json.loads(existing_file.read_text())
+    # Build set of dates we already have from local data
+    new_dates = {e["date"] for e in history}
+    # Add existing entries that aren't already covered by local data
+    for old_entry in existing:
+        if old_entry["date"] not in new_dates:
+            history.append(old_entry)
+
+# Sort by date ascending
+history.sort(key=lambda e: e["date"])
 
 # Keep last 90 days
 trimmed = history[-90:]
