@@ -38,6 +38,7 @@ cp "$TMP_DEPLOY/history.json" data/history.json
 cp "$TMP_DEPLOY/index.html" index.html
 rm -rf "$TMP_DEPLOY"
 
+echo "rates.bastian.services" > CNAME
 touch .nojekyll
 git add -A
 git commit -m "deploy $(date +%Y-%m-%d)"
