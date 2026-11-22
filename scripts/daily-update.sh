@@ -40,6 +40,9 @@ git branch -D gh-pages 2>/dev/null || true
 git checkout --orphan gh-pages
 git rm -rf . 2>/dev/null || true
 
+# Also nuke gitignored files that shouldn't be on gh-pages
+rm -rf data/rates-*.json scrapers scripts node_modules __pycache__ 2>/dev/null || true
+
 mkdir -p data
 cp "$TMP/latest.json" data/
 cp "$TMP/history.json" data/

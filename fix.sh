@@ -33,6 +33,9 @@ git checkout --orphan gh-pages
 # Remove everything from working tree, but save the tmp files (they're outside repo)
 git rm -rf . 2>/dev/null || true
 
+# Also nuke gitignored files that shouldn't be on gh-pages
+rm -rf data/rates-*.json scrapers scripts node_modules __pycache__ 2>/dev/null || true
+
 # Now put back only what gh-pages needs
 mkdir -p data
 cp "$TMP/latest.json" data/
