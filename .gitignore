@@ -8,3 +8,6 @@ scripts/inspect-*.js
 scripts/parse-*.js
 scripts/search-*.js
 scripts/test-*.js
+
+# Site build artifacts (managed separately on gh-pages)
+site/data/history.json
