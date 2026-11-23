@@ -934,5 +934,17 @@
       "national_30_year_fixed": 7.28,
       "national_15_year_fixed": 6.66
     }
+  },
+  {
+    "date": "2026-11-23",
+    "summary": {
+      "30_year_fixed": 6.958,
+      "15_year_fixed": 6.53,
+      "5_1_arm": 6.143,
+      "10_1_arm": 6.25,
+      "best_30yr_lender_rate": 6.49,
+      "national_30_year_fixed": 7.28,
+      "national_15_year_fixed": 6.66
+    }
   }
 ]
