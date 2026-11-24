@@ -1,6 +1,6 @@
 {
-  "date": "2026-11-23",
-  "fetchedAt": "2026-11-23T22:30:05.637350+00:00",
+  "date": "2026-11-24",
+  "fetchedAt": "2026-11-24T22:30:04.664498+00:00",
   "profile": {
     "currentRate": 5.87575,
     "loanType": "5/1 ARM",
@@ -19,13 +19,13 @@
         },
         {
           "term": "20-Year Fixed",
-          "rate": 6.875,
-          "apr": 6.99
+          "rate": 6.75,
+          "apr": 6.863
         },
         {
           "term": "15-Year Fixed",
-          "rate": 6.5,
-          "apr": 6.637
+          "rate": 6.375,
+          "apr": 6.51
         },
         {
           "term": "10-Year Fixed",
@@ -61,25 +61,25 @@
       "fixed": [
         {
           "term": "15-Year Fixed",
+          "rate": 6.375,
+          "apr": 6.6518
+        },
+        {
+          "term": "30-Year Fixed",
           "rate": 6.5,
-          "apr": 6.7574
+          "apr": 6.7322
         },
         {
           "term": "30-Year Fixed",
-          "rate": 6.625,
-          "apr": 6.8464
-        },
-        {
-          "term": "30-Year Fixed",
-          "rate": 7.25,
-          "apr": 7.401
+          "rate": 7.125,
+          "apr": 7.3005
         }
       ],
       "arm": [
         {
           "term": "7/6 ARM",
-          "rate": 6.625,
-          "apr": 6.7828
+          "rate": 6.5,
+          "apr": 6.729
         }
       ]
     },
@@ -90,7 +90,7 @@
         {
           "term": "15-Year Fixed",
           "rate": 5.875,
-          "apr": 5.894
+          "apr": 5.875
         },
         {
           "term": "30-Year Fixed FHA",
@@ -151,21 +151,36 @@
       "url": "https://www.bankofamerica.com/mortgage/refinance-rates/",
       "fixed": [
         {
-          "term": "15-Year Fixed Jumbo",
-          "rate": 7.0,
-          "apr": 7.144
+          "term": "15-Year Fixed",
+          "rate": 6.75,
+          "apr": 7.042
         },
         {
-          "term": "30-Year Fixed Jumbo",
+          "term": "20-Year Fixed",
           "rate": 7.375,
-          "apr": 7.486
+          "apr": 7.599
+        },
+        {
+          "term": "30-Year Fixed",
+          "rate": 7.5,
+          "apr": 7.694
         }
       ],
       "arm": [
         {
-          "term": "5/1 ARM Jumbo",
-          "rate": 6.25,
-          "apr": 6.567
+          "term": "5/1 ARM",
+          "rate": 6.375,
+          "apr": 6.717
+        },
+        {
+          "term": "7/1 ARM",
+          "rate": 6.5,
+          "apr": 6.75
+        },
+        {
+          "term": "10/1 ARM",
+          "rate": 6.75,
+          "apr": 6.893
         }
       ]
     },
@@ -175,30 +190,30 @@
       "fixed": [
         {
           "term": "15-Year Fixed",
-          "rate": 5.99,
-          "apr": 6.296
+          "rate": 5.875,
+          "apr": 6.211
         },
         {
           "term": "30-Year Fixed FHA",
-          "rate": 6.5,
-          "apr": 7.234
+          "rate": 6.49,
+          "apr": 7.211
         },
         {
           "term": "30-Year Fixed",
           "rate": 6.625,
-          "apr": 6.833
+          "apr": 6.801
         },
         {
           "term": "30-Year Fixed Jumbo",
           "rate": 6.625,
-          "apr": 6.833
+          "apr": 6.813
         }
       ],
       "arm": [
         {
           "term": "7/1 ARM Jumbo",
-          "rate": 6.125,
-          "apr": 6.584
+          "rate": 5.99,
+          "apr": 6.514
         }
       ]
     },
@@ -219,31 +234,31 @@
     }
   },
   "summary": {
-    "30_year_fixed_avg": 6.958,
+    "30_year_fixed_avg": 6.946,
     "30_year_fixed_best": 6.49,
-    "15_year_fixed_avg": 6.53,
+    "15_year_fixed_avg": 6.453,
     "15_year_fixed_best": 5.875,
-    "5_1_arm_avg": 6.143,
+    "5_1_arm_avg": 6.171,
     "5_1_arm_best": 5.875,
-    "7_1_arm_avg": 6.219,
-    "7_1_arm_best": 6.0,
-    "10_1_arm_avg": 6.25,
+    "7_1_arm_avg": 6.223,
+    "7_1_arm_best": 5.99,
+    "10_1_arm_avg": 6.417,
     "national_30_year_fixed": 7.28,
     "national_15_year_fixed": 6.66,
     "my_rate": 5.87575,
     "my_loan_type": "5/1 ARM",
     "institutions_count": 7,
-    "30_year_fixed": 6.958,
-    "15_year_fixed": 6.53,
-    "5_1_arm": 6.143,
-    "7_1_arm": 6.219,
-    "best_7_1_arm": 6.0,
-    "10_1_arm": 6.25,
+    "30_year_fixed": 6.946,
+    "15_year_fixed": 6.453,
+    "5_1_arm": 6.171,
+    "7_1_arm": 6.223,
+    "best_7_1_arm": 5.99,
+    "10_1_arm": 6.417,
     "best_30yr_lender_rate": 6.49,
     "vs_my_rate": {
-      "market_rate": 6.143,
+      "market_rate": 6.171,
       "my_rate": 5.87575,
-      "difference": 0.267,
+      "difference": 0.295,
       "assessment": "\u2705 Your rate is BETTER than market"
     }
   },
