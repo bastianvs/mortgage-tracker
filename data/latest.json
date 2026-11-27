@@ -1,0 +1,270 @@
+{
+  "date": "2026-11-27",
+  "fetchedAt": "2026-11-27T22:30:04.133198+00:00",
+  "profile": {
+    "currentRate": 5.87575,
+    "loanType": "5/1 ARM",
+    "location": "Milpitas, CA 95035",
+    "propertyType": "Single-family detached"
+  },
+  "institutions": {
+    "patelco": {
+      "name": "PatelCo Credit Union",
+      "url": "https://www.patelco.org/credit-cards-and-loans/home-loans/mortgage",
+      "fixed": [
+        {
+          "term": "30-Year Fixed",
+          "rate": 7.0,
+          "apr": 7.09
+        },
+        {
+          "term": "20-Year Fixed",
+          "rate": 6.75,
+          "apr": 6.863
+        },
+        {
+          "term": "15-Year Fixed",
+          "rate": 6.375,
+          "apr": 6.51
+        },
+        {
+          "term": "10-Year Fixed",
+          "rate": 6.125,
+          "apr": 6.309
+        },
+        {
+          "term": "30-Year Fixed",
+          "rate": 7.5,
+          "apr": 7.592
+        },
+        {
+          "term": "15-Year Fixed",
+          "rate": 6.875,
+          "apr": 7.01
+        },
+        {
+          "term": "30-Year Fixed",
+          "rate": 7.625,
+          "apr": 7.71
+        },
+        {
+          "term": "15-Year Fixed",
+          "rate": 7.0,
+          "apr": 7.124
+        }
+      ],
+      "arm": []
+    },
+    "wellsfargo": {
+      "name": "Wells Fargo",
+      "url": "https://www.wellsfargo.com/mortgage/rates/",
+      "fixed": [
+        {
+          "term": "15-Year Fixed",
+          "rate": 6.5,
+          "apr": 6.7376
+        },
+        {
+          "term": "30-Year Fixed",
+          "rate": 6.5,
+          "apr": 6.7448
+        },
+        {
+          "term": "30-Year Fixed",
+          "rate": 7.25,
+          "apr": 7.4011
+        }
+      ],
+      "arm": [
+        {
+          "term": "7/6 ARM",
+          "rate": 6.625,
+          "apr": 6.7581
+        }
+      ]
+    },
+    "golden1": {
+      "name": "Golden 1 Credit Union",
+      "url": "https://www.golden1.com/credit-cards-loans/home-loans/rates",
+      "fixed": [
+        {
+          "term": "15-Year Fixed",
+          "rate": 5.875,
+          "apr": 5.894
+        },
+        {
+          "term": "15-Year Fixed Jumbo",
+          "rate": 6.375,
+          "apr": 6.395
+        },
+        {
+          "term": "30-Year Fixed FHA",
+          "rate": 6.49,
+          "apr": 7.205
+        },
+        {
+          "term": "30-Year Fixed",
+          "rate": 6.75,
+          "apr": 6.75
+        },
+        {
+          "term": "30-Year Fixed Jumbo",
+          "rate": 6.875,
+          "apr": 6.887
+        }
+      ],
+      "arm": [
+        {
+          "term": "5/1 ARM",
+          "rate": 5.75,
+          "apr": 6.281
+        },
+        {
+          "term": "5/1 ARM Jumbo",
+          "rate": 5.875,
+          "apr": 6.329
+        },
+        {
+          "term": "7/1 ARM Jumbo",
+          "rate": 5.875,
+          "apr": 6.241
+        },
+        {
+          "term": "7/1 ARM",
+          "rate": 6.0,
+          "apr": 6.304
+        },
+        {
+          "term": "10/1 ARM",
+          "rate": 6.125,
+          "apr": 6.296
+        },
+        {
+          "term": "10/1 ARM Jumbo",
+          "rate": 6.125,
+          "apr": 6.296
+        }
+      ]
+    },
+    "bofa": {
+      "name": "Bank of America",
+      "url": "https://www.bankofamerica.com/mortgage/refinance-rates/",
+      "fixed": [],
+      "arm": []
+    },
+    "chase": {
+      "name": "Chase",
+      "url": "https://www.chase.com/personal/mortgage/refinance-rates",
+      "fixed": [
+        {
+          "term": "15-Year Fixed",
+          "rate": 5.99,
+          "apr": 6.294
+        },
+        {
+          "term": "30-Year Fixed FHA",
+          "rate": 6.49,
+          "apr": 7.217
+        },
+        {
+          "term": "30-Year Fixed",
+          "rate": 6.625,
+          "apr": 6.799
+        },
+        {
+          "term": "30-Year Fixed Jumbo",
+          "rate": 6.625,
+          "apr": 6.839
+        }
+      ],
+      "arm": [
+        {
+          "term": "7/1 ARM Jumbo",
+          "rate": 6.125,
+          "apr": 6.573
+        }
+      ]
+    },
+    "citi": {
+      "name": "Citi",
+      "url": "https://www.citi.com/mortgage/refinance-rates",
+      "fixed": [
+        {
+          "term": "15-Year Fixed",
+          "rate": 6.25,
+          "apr": 6.453
+        },
+        {
+          "term": "30-Year Fixed FHA",
+          "rate": 6.375,
+          "apr": 7.029
+        },
+        {
+          "term": "30-Year Fixed VA",
+          "rate": 6.375,
+          "apr": 6.767
+        },
+        {
+          "term": "20-Year Fixed",
+          "rate": 6.625,
+          "apr": 6.757
+        },
+        {
+          "term": "30-Year Fixed Jumbo",
+          "rate": 6.625,
+          "apr": 6.735
+        },
+        {
+          "term": "30-Year Fixed",
+          "rate": 6.875,
+          "apr": 6.977
+        }
+      ],
+      "arm": []
+    },
+    "pmms": {
+      "name": "Freddie Mac PMMS",
+      "url": "https://www.freddiemac.com/pmms/",
+      "rates": {
+        "30_year_fixed": 7.21,
+        "15_year_fixed": 6.54
+      },
+      "as_of": "2026-11-25"
+    }
+  },
+  "summary": {
+    "30_year_fixed_avg": 6.799,
+    "30_year_fixed_best": 6.375,
+    "15_year_fixed_avg": 6.405,
+    "15_year_fixed_best": 5.875,
+    "5_1_arm_avg": 6.042,
+    "5_1_arm_best": 5.75,
+    "7_1_arm_avg": 6.156,
+    "7_1_arm_best": 5.875,
+    "10_1_arm_avg": 6.125,
+    "national_30_year_fixed": 7.21,
+    "national_15_year_fixed": 6.54,
+    "my_rate": 5.87575,
+    "my_loan_type": "5/1 ARM",
+    "institutions_count": 7,
+    "30_year_fixed": 6.799,
+    "15_year_fixed": 6.405,
+    "5_1_arm": 6.042,
+    "7_1_arm": 6.156,
+    "best_7_1_arm": 5.875,
+    "10_1_arm": 6.125,
+    "best_30yr_lender_rate": 6.375,
+    "vs_my_rate": {
+      "market_rate": 6.042,
+      "my_rate": 5.87575,
+      "difference": 0.166,
+      "assessment": "\ud83d\udfe2 Your rate is slightly better than market"
+    }
+  },
+  "errors": [
+    {
+      "source": "starone",
+      "error": "Client error '403 Forbidden' for url 'https://www.starone.org/rates/mortgage-rates'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+    }
+  ]
+}
